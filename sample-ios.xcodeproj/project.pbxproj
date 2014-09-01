@@ -8,14 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		4890809C19B4D42400172123 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4890809B19B4D42400172123 /* Foundation.framework */; };
-		489080A119B4D42400172123 /* sample_ios.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 489080A019B4D42400172123 /* sample_ios.h */; };
-		489080A319B4D42400172123 /* sample_ios.m in Sources */ = {isa = PBXBuildFile; fileRef = 489080A219B4D42400172123 /* sample_ios.m */; };
 		489080AA19B4D42400172123 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 489080A919B4D42400172123 /* XCTest.framework */; };
 		489080AB19B4D42400172123 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4890809B19B4D42400172123 /* Foundation.framework */; };
 		489080AD19B4D42400172123 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 489080AC19B4D42400172123 /* UIKit.framework */; };
 		489080B019B4D42400172123 /* libsample-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4890809819B4D42400172123 /* libsample-ios.a */; };
 		489080B619B4D42400172123 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 489080B419B4D42400172123 /* InfoPlist.strings */; };
-		489080B819B4D42400172123 /* sample_iosTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 489080B719B4D42400172123 /* sample_iosTests.m */; };
+		489080C719B4D43A00172123 /* Connector.m in Sources */ = {isa = PBXBuildFile; fileRef = 489080C219B4D43A00172123 /* Connector.m */; };
+		489080C819B4D43A00172123 /* Tracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 489080C419B4D43A00172123 /* Tracker.m */; };
+		489080C919B4D43A00172123 /* TrackingInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 489080C619B4D43A00172123 /* TrackingInstance.m */; };
+		489080CE19B4D44C00172123 /* ConnectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 489080CA19B4D44C00172123 /* ConnectorTests.m */; };
+		489080CF19B4D44C00172123 /* TrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 489080CB19B4D44C00172123 /* TrackerTests.m */; };
+		489080D019B4D44C00172123 /* XCTestCase+AsyncTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 489080CD19B4D44C00172123 /* XCTestCase+AsyncTesting.m */; };
+		489080D219B4D46E00172123 /* Connector.h in Headers */ = {isa = PBXBuildFile; fileRef = 489080C119B4D43A00172123 /* Connector.h */; };
+		489080D319B4D47600172123 /* Tracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 489080C319B4D43A00172123 /* Tracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		489080D419B4D47B00172123 /* TrackingInstance.h in Headers */ = {isa = PBXBuildFile; fileRef = 489080C519B4D43A00172123 /* TrackingInstance.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +41,6 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				489080A119B4D42400172123 /* sample_ios.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -45,14 +50,21 @@
 		4890809819B4D42400172123 /* libsample-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libsample-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4890809B19B4D42400172123 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4890809F19B4D42400172123 /* sample-ios-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "sample-ios-Prefix.pch"; sourceTree = "<group>"; };
-		489080A019B4D42400172123 /* sample_ios.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sample_ios.h; sourceTree = "<group>"; };
-		489080A219B4D42400172123 /* sample_ios.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = sample_ios.m; sourceTree = "<group>"; };
 		489080A819B4D42400172123 /* sample-iosTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "sample-iosTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		489080A919B4D42400172123 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		489080AC19B4D42400172123 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		489080B319B4D42400172123 /* sample-iosTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "sample-iosTests-Info.plist"; sourceTree = "<group>"; };
 		489080B519B4D42400172123 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		489080B719B4D42400172123 /* sample_iosTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = sample_iosTests.m; sourceTree = "<group>"; };
+		489080C119B4D43A00172123 /* Connector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Connector.h; sourceTree = "<group>"; };
+		489080C219B4D43A00172123 /* Connector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Connector.m; sourceTree = "<group>"; };
+		489080C319B4D43A00172123 /* Tracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tracker.h; sourceTree = "<group>"; };
+		489080C419B4D43A00172123 /* Tracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tracker.m; sourceTree = "<group>"; };
+		489080C519B4D43A00172123 /* TrackingInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackingInstance.h; sourceTree = "<group>"; };
+		489080C619B4D43A00172123 /* TrackingInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackingInstance.m; sourceTree = "<group>"; };
+		489080CA19B4D44C00172123 /* ConnectorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectorTests.m; sourceTree = "<group>"; };
+		489080CB19B4D44C00172123 /* TrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackerTests.m; sourceTree = "<group>"; };
+		489080CC19B4D44C00172123 /* XCTestCase+AsyncTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestCase+AsyncTesting.h"; sourceTree = "<group>"; };
+		489080CD19B4D44C00172123 /* XCTestCase+AsyncTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase+AsyncTesting.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,8 +122,12 @@
 		4890809D19B4D42400172123 /* sample-ios */ = {
 			isa = PBXGroup;
 			children = (
-				489080A019B4D42400172123 /* sample_ios.h */,
-				489080A219B4D42400172123 /* sample_ios.m */,
+				489080C119B4D43A00172123 /* Connector.h */,
+				489080C219B4D43A00172123 /* Connector.m */,
+				489080C319B4D43A00172123 /* Tracker.h */,
+				489080C419B4D43A00172123 /* Tracker.m */,
+				489080C519B4D43A00172123 /* TrackingInstance.h */,
+				489080C619B4D43A00172123 /* TrackingInstance.m */,
 				4890809E19B4D42400172123 /* Supporting Files */,
 			);
 			path = "sample-ios";
@@ -128,7 +144,10 @@
 		489080B119B4D42400172123 /* sample-iosTests */ = {
 			isa = PBXGroup;
 			children = (
-				489080B719B4D42400172123 /* sample_iosTests.m */,
+				489080CA19B4D44C00172123 /* ConnectorTests.m */,
+				489080CB19B4D44C00172123 /* TrackerTests.m */,
+				489080CC19B4D44C00172123 /* XCTestCase+AsyncTesting.h */,
+				489080CD19B4D44C00172123 /* XCTestCase+AsyncTesting.m */,
 				489080B219B4D42400172123 /* Supporting Files */,
 			);
 			path = "sample-iosTests";
@@ -145,6 +164,19 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		489080D119B4D46500172123 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				489080D219B4D46E00172123 /* Connector.h in Headers */,
+				489080D319B4D47600172123 /* Tracker.h in Headers */,
+				489080D419B4D47B00172123 /* TrackingInstance.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
 		4890809719B4D42400172123 /* sample-ios */ = {
 			isa = PBXNativeTarget;
@@ -153,6 +185,8 @@
 				4890809419B4D42400172123 /* Sources */,
 				4890809519B4D42400172123 /* Frameworks */,
 				4890809619B4D42400172123 /* CopyFiles */,
+				489080D119B4D46500172123 /* Headers */,
+				489080D519B4D49C00172123 /* Fat lib */,
 			);
 			buildRules = (
 			);
@@ -219,12 +253,32 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		489080D519B4D49C00172123 /* Fat lib */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Fat lib";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "##########################################\n#\n# c.f. http://stackoverflow.com/questions/3520977/build-fat-static-library-device-simulator-using-xcode-and-sdk-4\n#\n# Version 2.7\n#\n# Latest Change:\n# - Supports iPhone 5 / iPod Touch 5 (uses Apple's workaround to lipo bug)\n#\n# Purpose:\n#   Automatically create a Universal static library for iPhone + iPad + iPhone Simulator from within XCode\n#\n# Author: Adam Martin - http://twitter.com/t_machine_org\n# Based on: original script from Eonil (main changes: Eonil's script WILL NOT WORK in Xcode GUI - it WILL CRASH YOUR COMPUTER)\n#\n\nset -e\nset -o pipefail\n\n#################[ Tests: helps workaround any future bugs in Xcode ]########\n#\nDEBUG_THIS_SCRIPT=\"false\"\n\nif [ $DEBUG_THIS_SCRIPT = \"true\" ]\nthen\necho \"########### TESTS #############\"\necho \"Use the following variables when debugging this script; note that they may change on recursions\"\necho \"BUILD_DIR = $BUILD_DIR\"\necho \"BUILD_ROOT = $BUILD_ROOT\"\necho \"CONFIGURATION_BUILD_DIR = $CONFIGURATION_BUILD_DIR\"\necho \"BUILT_PRODUCTS_DIR = $BUILT_PRODUCTS_DIR\"\necho \"CONFIGURATION_TEMP_DIR = $CONFIGURATION_TEMP_DIR\"\necho \"TARGET_BUILD_DIR = $TARGET_BUILD_DIR\"\nfi\n\n#####################[ part 1 ]##################\n# First, work out the BASESDK version number (NB: Apple ought to report this, but they hide it)\n#    (incidental: searching for substrings in sh is a nightmare! Sob)\n\nSDK_VERSION=$(echo ${SDK_NAME} | grep -o '.\\{3\\}$')\n\n# Next, work out if we're in SIM or DEVICE\n\nif [ ${PLATFORM_NAME} = \"iphonesimulator\" ]\nthen\nOTHER_SDK_TO_BUILD=iphoneos${SDK_VERSION}\nelse\nOTHER_SDK_TO_BUILD=iphonesimulator${SDK_VERSION}\nfi\n\necho \"XCode has selected SDK: ${PLATFORM_NAME} with version: ${SDK_VERSION} (although back-targetting: ${IPHONEOS_DEPLOYMENT_TARGET})\"\necho \"...therefore, OTHER_SDK_TO_BUILD = ${OTHER_SDK_TO_BUILD}\"\n#\n#####################[ end of part 1 ]##################\n\n#####################[ part 2 ]##################\n#\n# IF this is the original invocation, invoke WHATEVER other builds are required\n#\n# Xcode is already building ONE target...\n#\n# ...but this is a LIBRARY, so Apple is wrong to set it to build just one.\n# ...we need to build ALL targets\n# ...we MUST NOT re-build the target that is ALREADY being built: Xcode WILL CRASH YOUR COMPUTER if you try this (infinite recursion!)\n#\n#\n# So: build ONLY the missing platforms/configurations.\n\nif [ \"true\" == ${ALREADYINVOKED:-false} ]\nthen\necho \"RECURSION: I am NOT the root invocation, so I'm NOT going to recurse\"\nelse\n# CRITICAL:\n# Prevent infinite recursion (Xcode sucks)\nexport ALREADYINVOKED=\"true\"\n\necho \"RECURSION: I am the root ... recursing all missing build targets NOW...\"\necho \"RECURSION: ...about to invoke: xcodebuild -configuration \\\"${CONFIGURATION}\\\" -project \\\"${PROJECT_NAME}.xcodeproj\\\" -target \\\"${TARGET_NAME}\\\" -sdk \\\"${OTHER_SDK_TO_BUILD}\\\" ${ACTION} RUN_CLANG_STATIC_ANALYZER=NO\" BUILD_DIR=\\\"${BUILD_DIR}\\\" BUILD_ROOT=\\\"${BUILD_ROOT}\\\" SYMROOT=\\\"${SYMROOT}\\\"\n\nxcodebuild -configuration \"${CONFIGURATION}\" -project \"${PROJECT_NAME}.xcodeproj\" -target \"${TARGET_NAME}\" -sdk \"${OTHER_SDK_TO_BUILD}\" ${ACTION} RUN_CLANG_STATIC_ANALYZER=NO BUILD_DIR=\"${BUILD_DIR}\" BUILD_ROOT=\"${BUILD_ROOT}\" SYMROOT=\"${SYMROOT}\"\n\nACTION=\"build\"\n\n#Merge all platform binaries as a fat binary for each configurations.\n\n# Calculate where the (multiple) built files are coming from:\nCURRENTCONFIG_DEVICE_DIR=${SYMROOT}/${CONFIGURATION}-iphoneos\nCURRENTCONFIG_SIMULATOR_DIR=${SYMROOT}/${CONFIGURATION}-iphonesimulator\n\necho \"Taking device build from: ${CURRENTCONFIG_DEVICE_DIR}\"\necho \"Taking simulator build from: ${CURRENTCONFIG_SIMULATOR_DIR}\"\n\nCREATING_UNIVERSAL_DIR=${SYMROOT}/${CONFIGURATION}-universal\necho \"...I will output a universal build to: ${CREATING_UNIVERSAL_DIR}\"\n\n# ... remove the products of previous runs of this script\n#      NB: this directory is ONLY created by this script - it should be safe to delete!\n\nrm -rf \"${CREATING_UNIVERSAL_DIR}\"\nmkdir \"${CREATING_UNIVERSAL_DIR}\"\n\n#\necho \"lipo: for current configuration (${CONFIGURATION}) creating output file: ${CREATING_UNIVERSAL_DIR}/${EXECUTABLE_NAME}\"\nxcrun -sdk iphoneos lipo -create -output \"${CREATING_UNIVERSAL_DIR}/${EXECUTABLE_NAME}\" \"${CURRENTCONFIG_DEVICE_DIR}/${EXECUTABLE_NAME}\" \"${CURRENTCONFIG_SIMULATOR_DIR}/${EXECUTABLE_NAME}\"\n\n#########\n#\n# Added: StackOverflow suggestion to also copy \"include\" files\n#    (untested, but should work OK)\n#\necho \"Fetching headers from ${PUBLIC_HEADERS_FOLDER_PATH}\"\necho \"  (if you embed your library project in another project, you will need to add\"\necho \"   a \"User Search Headers\" build setting of: (NB INCLUDE THE DOUBLE QUOTES BELOW!)\"\necho '        \"$(TARGET_BUILD_DIR)/usr/local/include/\"'\nif [ -d \"${CURRENTCONFIG_DEVICE_DIR}${PUBLIC_HEADERS_FOLDER_PATH}\" ]\nthen\nmkdir -p \"${CREATING_UNIVERSAL_DIR}${PUBLIC_HEADERS_FOLDER_PATH}\"\n# * needs to be outside the double quotes?\ncp -r \"${CURRENTCONFIG_DEVICE_DIR}${PUBLIC_HEADERS_FOLDER_PATH}\"* \"${CREATING_UNIVERSAL_DIR}${PUBLIC_HEADERS_FOLDER_PATH}\"\nfi\nfi\n\nopen \"${CREATING_UNIVERSAL_DIR}\"";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4890809419B4D42400172123 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				489080A319B4D42400172123 /* sample_ios.m in Sources */,
+				489080C919B4D43A00172123 /* TrackingInstance.m in Sources */,
+				489080C819B4D43A00172123 /* Tracker.m in Sources */,
+				489080C719B4D43A00172123 /* Connector.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,7 +286,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				489080B819B4D42400172123 /* sample_iosTests.m in Sources */,
+				489080CF19B4D44C00172123 /* TrackerTests.m in Sources */,
+				489080D019B4D44C00172123 /* XCTestCase+AsyncTesting.m in Sources */,
+				489080CE19B4D44C00172123 /* ConnectorTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,6 +388,7 @@
 				DSTROOT = /tmp/sample_ios.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "sample-ios/sample-ios-Prefix.pch";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -344,6 +401,7 @@
 				DSTROOT = /tmp/sample_ios.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "sample-ios/sample-ios-Prefix.pch";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

@@ -65,6 +65,7 @@
 		489080CB19B4D44C00172123 /* TrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackerTests.m; sourceTree = "<group>"; };
 		489080CC19B4D44C00172123 /* XCTestCase+AsyncTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestCase+AsyncTesting.h"; sourceTree = "<group>"; };
 		489080CD19B4D44C00172123 /* XCTestCase+AsyncTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase+AsyncTesting.m"; sourceTree = "<group>"; };
+		489080D619B4D7DC00172123 /* libsample-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libsample-ios.a"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +94,7 @@
 		4890808F19B4D42400172123 = {
 			isa = PBXGroup;
 			children = (
+				489080D619B4D7DC00172123 /* libsample-ios.a */,
 				4890809D19B4D42400172123 /* sample-ios */,
 				489080B119B4D42400172123 /* sample-iosTests */,
 				4890809A19B4D42400172123 /* Frameworks */,

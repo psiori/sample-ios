@@ -8,7 +8,6 @@
 
 #import "Tracker.h"
 #import "TrackingInstance.h"
-#import "Connector.h"
 
 @implementation Tracker
 
@@ -17,7 +16,7 @@
   static TrackingInstance *sharedinstance = nil;
   static dispatch_once_t onceToken;
   dispatch_once(&onceToken, ^{
-    sharedinstance = [[TrackingInstance alloc] initWithConnector:[Connector new]];
+    sharedinstance = [[TrackingInstance alloc] init];
   });
   return sharedinstance;
 }
@@ -27,7 +26,7 @@
 
 + (void)startTracking:(NSString *)endPoint
 {
-  [Tracker sharedInstance].connector.url = endPoint;
+  [Tracker sharedInstance].url = endPoint;
   [[Tracker sharedInstance] resume];
 }
 

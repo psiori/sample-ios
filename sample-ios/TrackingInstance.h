@@ -8,13 +8,35 @@
 
 #import <Foundation/Foundation.h>
 
+/**
+ Protocol that allows callbacks from the Connector
+ */
+@protocol TrackingDelegate <NSObject>
+
+/**
+ Delegate method called when a track action succeeds
+ @param data The success data
+ */
+- (void)trackingDidSucceedWithData:(NSData *)data;
+
+/**
+ Delegate method called when a track action failed
+ @param error An error object
+ */
+- (void)trackingDidFailWithError:(NSError *)error;
+
+@end
+
+
 extern NSString * const kInstallToken;
 
 @class Connector;
 
 @interface TrackingInstance : NSObject
 
-@property (nonatomic, strong, readonly) Connector *connector;
+@property (nonatomic, assign, getter = isRunning)  BOOL running;
+@property (nonatomic, assign, getter = isGrouping) BOOL grouping;
+@property (nonatomic, assign, getter = isSending)  BOOL sending;
 
 @property (nonatomic, copy) NSString *sdk;
 @property (nonatomic, copy) NSString *sdkVersion;
@@ -52,10 +74,24 @@ extern NSString * const kInstallToken;
 @property (nonatomic, copy, readonly) NSString *sessionToken;
 
 /**
- Initialize a new Tracker with a connector
- @param connector the connector used for sending the events
+ If needed set a delegate to receive callbacks when a event was send successfully or an error occured
  */
-- (instancetype)initWithConnector:(Connector *)connector;
+@property (nonatomic, strong) id< TrackingDelegate> delegate;
+
+/**
+ The endpoints url
+ */
+@property (nonatomic, strong) NSString *url;
+
+/**
+ Events are send as fifo
+ */
+@property (nonatomic, strong) NSMutableArray *eventQueue;
+
+/**
+ If grouping is activated events are added to the group until the group is closed. Then the array is added to the event queue.
+ */
+@property (nonatomic, strong) NSMutableArray *eventGroup;
 
 
 /**
@@ -87,7 +123,9 @@ extern NSString * const kInstallToken;
 - (void)setSDK:(NSString *)sdk version:(NSString *)version;
 
 /**
- Set
+ Set the client id and version
+ @param clientId
+ @param version
  */
 - (void)setClientId:(NSString *)clientId version:(NSString *)version;
 
@@ -131,6 +169,11 @@ extern NSString * const kInstallToken;
  @param userParams a dictionary with user specific parameters
  */
 - (void)track:(NSString *)event category:(NSString *)category userParams:(NSDictionary *)userParams;
+
+/**
+ Sends the next event in the event queue
+ */
+- (void)sendNext;
 
 /**
  Helper methods. They are exposed so that they can be tested.

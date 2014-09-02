@@ -7,8 +7,8 @@
 //
 
 #import <XCTest/XCTest.h>
+#import "XCTestCase+AsyncTesting.h"
 #import "TrackingInstance.h"
-#import "Connector.h"
 
 @interface SampleTests : XCTestCase
 
@@ -21,14 +21,92 @@
 - (void)setUp
 {
   [super setUp];
-  Connector *connector = [Connector new];
-  connector.url = @"http://events.neurometry.com/sample/v01/event";
-  self.sample = [[TrackingInstance alloc] initWithConnector:connector];
+  self.sample = [[TrackingInstance alloc] init];
+  self.sample.url = @"http://events.neurometry.com/sample/v01/event";
 }
 
 - (void)tearDown
 {
   [super tearDown];
+}
+
+- (void)testInit
+{
+  XCTAssertNotNil(self.sample.eventQueue, @"EventQueue should be initialized");
+}
+
+- (void)testGrouping
+{
+  [self.sample startGroup];
+  XCTAssertTrue(self.sample.isGrouping, @"Group should be set to true");
+  [self.sample endGroup];
+  XCTAssertFalse(self.sample.isGrouping, @"Group should be set to false");
+}
+
+- (void)testStartStop
+{
+  XCTAssertFalse(self.sample.isRunning, @"sample should run");
+  [self.sample resume];
+  XCTAssertTrue(self.sample.isRunning, @"sample should have stoped");
+  [self.sample stop];
+  XCTAssertFalse(self.sample.isRunning, @"sample should run after resuming");
+}
+
+- (void)testaddEvent
+{
+  [self.sample stop];
+  
+  [self.sample track:@"testevent" category:@"testcategory"];
+  NSUInteger events = [self.sample.eventQueue count];
+  XCTAssertEqual(events, 1, @"Eventqueue should contain 1 entry but contains %ld", events);
+}
+
+- (void)testAddGroup
+{
+  [self.sample stop];
+  
+  [self.sample startGroup];
+  [self.sample track:@"ping" category:@"session"];
+  [self.sample track:@"ping" category:@"session"];
+  
+  NSUInteger groupEvents = [self.sample.eventGroup count];
+  XCTAssertEqual(groupEvents, 2, @"Groupqueue should contain 2 entry but contains %ld", groupEvents);
+  
+  [self.sample endGroup];
+  
+  groupEvents = [self.sample.eventGroup count];
+  XCTAssertEqual(groupEvents, 0, @"Groupqueue should contain 0 entry but contains %ld", groupEvents);
+  
+  NSUInteger events = [self.sample.eventQueue count];
+  XCTAssertEqual(events, 1, @"Groupqueue should contain 1 entry but contains %ld", events);
+}
+
+- (void)testSendNext
+{
+  [self.sample stop];
+  [self.sample track:@"ping" category:@"session"];
+  [self.sample resume];
+  
+  [self waitForTimeout:5];
+  [self.sample stop];
+  
+  NSUInteger events = [self.sample.eventQueue count];
+  XCTAssertEqual(events, 0, @"Eventqueue should contain 0 entries but contains %ld", events);
+}
+
+- (void)testSendNextShouldNotSend
+{
+  [self.sample stop];
+  [self.sample track:@"ping" category:@"session"];
+  
+  [self waitForTimeout:5];
+  NSUInteger events = [self.sample.eventQueue count];
+  XCTAssertEqual(events, 1, @"Eventqueue should contain 1 entry but contains %ld", events);
+  
+  [self.sample sendNext];
+  [self waitForTimeout:5];
+  events = [self.sample.eventQueue count];
+  XCTAssertEqual(events, 1, @"Eventqueue should contain 1 entry but contains %ld", events);
 }
 
 - (void)testTokenAvailability
@@ -38,20 +116,6 @@
   
   NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
   XCTAssertNotNil([defaults objectForKey:kInstallToken], @"Installtoken should be set in the userdefaults");
-}
-
-- (void)testConnectorIsSet
-{
-  XCTAssertNotNil(self.sample.connector, @"Connector should not be nil");
-}
-
-- (void)testTrack
-{
-  [self.sample stop];
-  
-  [self.sample track:@"testevent" category:@"testcategory"];
-  NSUInteger events = [self.sample.connector.eventQueue count];
-  XCTAssertEqual(events, 1, @"Eventqueue should contain 1 entry but contains %ld", events);
 }
 
 - (void)testMergeParams

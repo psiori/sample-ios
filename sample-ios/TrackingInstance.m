@@ -102,6 +102,7 @@ static const int predifiendMaxEvents = 100;
   
   [self setRunning:NO];
   [self.sendNextEventTimer invalidate];
+  [self.autoPingTimer invalidate];
 }
 
 

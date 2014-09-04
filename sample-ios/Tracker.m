@@ -83,7 +83,7 @@
   [[Tracker sharedInstance].autoPingTimer invalidate];
   if (seconds > 0)
   {
-    [Tracker sharedInstance].autoPingTimer = [NSTimer scheduledTimerWithTimeInterval:seconds target:[Tracker sharedInstance] selector:@selector(ping) userInfo:nil repeats:YES];
+    [Tracker sharedInstance].autoPingTimer = [NSTimer scheduledTimerWithTimeInterval:seconds target:self selector:@selector(ping) userInfo:nil repeats:YES];
   }
 }
 

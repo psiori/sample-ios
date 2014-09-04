@@ -138,7 +138,7 @@
   [Tracker sharedInstance].email = email;
 }
 
-+ (void)setFacebookId:(NSString *)facebookId
++ (void)setFacebookId:(id)facebookId
 {
   [Tracker sharedInstance].facebookId = facebookId;
 }
@@ -173,12 +173,12 @@
   [[Tracker sharedInstance] setSDK:sdk version:version];
 }
 
-+ (void)setClientId:(NSString *)clientId version:(NSString *)version
++ (void)setClientId:(id)clientId version:(NSString *)version
 {
   [[Tracker sharedInstance] setClientId:clientId version:version];
 }
 
-+ (void)setUserId:(NSString *)userId
++ (void)setUserId:(id)userId
 {
   [Tracker sharedInstance].userId = userId;
 }

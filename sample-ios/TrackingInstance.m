@@ -73,7 +73,7 @@ static const int predifiendMaxEvents = 100;
   _sdkVersion = version;
 }
 
-- (void)setClientId:(NSString *)clientId version:(NSString *)version
+- (void)setClientId:(id)clientId version:(NSString *)version
 {
   _clientId = clientId;
   _clientVersion = version;

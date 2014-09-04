@@ -41,14 +41,14 @@ extern NSString * const kInstallToken;
 @property (nonatomic, copy) NSString *sdk;
 @property (nonatomic, copy) NSString *sdkVersion;
 
-@property (nonatomic, copy) NSString *clientId;
+@property (nonatomic, strong) id clientId;
 @property (nonatomic, copy) NSString *clientVersion;
 
 @property (nonatomic, copy) NSString *appToken;
 @property (nonatomic, copy) NSString *module;
 @property (nonatomic, copy) NSString *platform;
-@property (nonatomic, copy) NSString *userId;
-@property (nonatomic, copy) NSString *facebookId;
+@property (nonatomic, strong) id userId;
+@property (nonatomic, strong) id facebookId;
 @property (nonatomic, copy) NSString *email;
 @property (nonatomic, copy) NSString *local;
 
@@ -127,7 +127,7 @@ extern NSString * const kInstallToken;
  @param clientId
  @param version
  */
-- (void)setClientId:(NSString *)clientId version:(NSString *)version;
+- (void)setClientId:(id)clientId version:(NSString *)version;
 
 
 #pragma mark - Starting and grouping

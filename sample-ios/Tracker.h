@@ -147,13 +147,13 @@ extern NSString * const parameter6;
 
 + (void)setPlattform:(NSString *)platform;
 
-+ (void)setClientId:(NSString *)clientId version:(NSString *)version;
++ (void)setClientId:(id)clientId version:(NSString *)version;
 
 + (void)setModule:(NSString *)module;
 
-+ (void)setUserId:(NSString *)userId;
++ (void)setUserId:(id)userId;
 
-+ (void)setFacebookId:(NSString *)facebookId;
++ (void)setFacebookId:(id)facebookId;
 
 + (void)setEmail:(NSString *)email;
 

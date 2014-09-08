@@ -17,7 +17,7 @@
  Delegate method called when a track action succeeds
  @param data The success data
  */
-- (void)trackingDidSucceedWithData:(NSData *)data;
+- (void)trackingDidSucceedWithData:(NSData *)data response:(NSURLResponse *)response;
 
 /**
  Delegate method called when a track action failed

@@ -10,9 +10,13 @@
 #import "XCTestCase+AsyncTesting.h"
 #import "TrackingInstance.h"
 
-@interface SampleTests : XCTestCase
+@interface SampleTests : XCTestCase<TrackingDelegate>
 
 @property (nonatomic, strong) TrackingInstance *sample;
+
+@property (nonatomic, strong) NSHTTPURLResponse *response;
+@property (nonatomic, strong) NSData *data;
+@property (nonatomic, strong) NSError *error;
 
 @end
 
@@ -22,6 +26,7 @@
 {
   [super setUp];
   self.sample = [[TrackingInstance alloc] init];
+  self.sample.delegate = self;
   self.sample.url = @"http://events.neurometry.com/sample/v01/event";
 }
 
@@ -107,6 +112,28 @@
   [self waitForTimeout:5];
   events = [self.sample.eventQueue count];
   XCTAssertEqual(events, 1, @"Eventqueue should contain 1 entry but contains %ld", events);
+}
+
+- (void)testTrackSuccess
+{
+  [self.sample stop];
+  self.sample.appToken = @"test app";
+  [self.sample track:@"ping" category:@"session"];
+  [self.sample resume];
+  
+  [self waitForTimeout:5];
+
+  XCTAssertEqual([self.response statusCode], 201);
+}
+
+- (void)testTrackFail
+{
+  [self.sample track:@"ping" category:@"session"];
+  [self.sample resume];
+  
+  [self waitForTimeout:5];
+  
+  XCTAssertEqual([self.response statusCode], 400,  @"Test should fail without app Token");
 }
 
 - (void)testTokenAvailability
@@ -228,5 +255,15 @@
   XCTAssertEqual([[self.sample randomToken:12] characterAtIndex:4], '-', @"The fourth character should be a -");
 }
 
+- (void)trackingDidFailWithError:(NSError *)error
+{
+  self.error = error;
+}
+
+- (void)trackingDidSucceedWithData:(NSData *)data response:(NSURLResponse *)response
+{
+  self.data = data;
+  self.response = (NSHTTPURLResponse *)response;
+}
 
 @end

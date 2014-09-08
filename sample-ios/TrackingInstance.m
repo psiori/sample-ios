@@ -140,7 +140,7 @@ static const int predifiendMaxEvents = 100;
 {
   if (event)
   {
-    NSDictionary *eventDict = [self mergeParams:userParams eventName:event eventCategory:category];
+    NSDictionary *eventDict = @{@"p":[self mergeParams:userParams eventName:event eventCategory:category]};
     if (self.isGrouping)
     {
       [self.eventGroup addObject:eventDict];
@@ -189,9 +189,9 @@ static const int predifiendMaxEvents = 100;
      }
      else
      {
-       if ([self.delegate respondsToSelector:@selector(trackingDidSucceedWithData:)])
+       if ([self.delegate respondsToSelector:@selector(trackingDidSucceedWithData: response:)])
        {
-         [self.delegate trackingDidSucceedWithData:data];
+         [self.delegate trackingDidSucceedWithData:data response:response];
        }
        
        if ([self.eventQueue count])

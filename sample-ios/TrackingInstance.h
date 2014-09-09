@@ -81,7 +81,7 @@ extern NSString * const kInstallToken;
 /**
  The endpoints url
  */
-@property (nonatomic, strong) NSString *url;
+@property (nonatomic, strong) NSString *endpoint;
 
 /**
  Events are send as fifo

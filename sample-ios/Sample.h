@@ -18,7 +18,7 @@ extern NSString * const parameter6;
 /**
  Single access point for all tracking calls
  */
-@interface Tracker : NSObject
+@interface Sample : NSObject
 
 
 #pragma mark - Tracking
@@ -27,7 +27,7 @@ extern NSString * const parameter6;
  Starts the tracking to an endPoint
  @param endPoint the adress where the events will be send to
  */
-+ (void)startTracking:(NSString *)endPoint;
++ (void)startTracking;
 
 /**
  Stops the tracking
@@ -77,11 +77,6 @@ extern NSString * const parameter6;
  parameter1 to parameter6
  */
 #pragma mark - Pre-defined Events
-
-/**
- Adds a session start event. This method uses the current app token. If you want to change the token call sessionStart: instead.
- */
-+ (void)sessionStart;
 
 /**
  Adds a session start event and changes the appToken if the appToken is not nil.
@@ -141,11 +136,9 @@ extern NSString * const parameter6;
 
 #pragma mark -
 
++ (void)setEnpoint:(NSString *)endpoint;
+
 + (void)setAppToken:(NSString *)appToken;
-
-+ (void)setSDK:(NSString *)sdk version:(NSString *)version;
-
-+ (void)setPlattform:(NSString *)platform;
 
 + (void)setClientId:(id)clientId version:(NSString *)version;
 

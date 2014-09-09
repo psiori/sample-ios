@@ -48,7 +48,12 @@ static const int predifiendMaxEvents = 100;
     
     _sessionToken = [self randomToken:32];
     
-     _eventQueue = [[NSMutableArray alloc] initWithCapacity:predifiendMaxEvents];
+    _eventQueue = [[NSMutableArray alloc] initWithCapacity:predifiendMaxEvents];
+    
+    _endpoint = @"http://events.neurometry.com/sample/v01/event";
+    _platform = @"ios";
+    _sdk = @"sample-ios";
+    _sdkVersion = @"0.0.1";
   }
   
   return self;
@@ -77,6 +82,14 @@ static const int predifiendMaxEvents = 100;
 {
   _clientId = clientId;
   _clientVersion = version;
+}
+
+- (void)setEndpoint:(NSString *)endpoint
+{
+  if (endpoint)
+  {
+    _endpoint = endpoint;
+  }
 }
 
 #pragma mark - Resuming/Stoping the connector
@@ -154,7 +167,7 @@ static const int predifiendMaxEvents = 100;
 
 - (void)sendNext
 {
-  if (!self.running || !self.url || self.sending || ![self.eventQueue count])
+  if (!self.running || !self.endpoint || self.sending || ![self.eventQueue count])
   {
     return;
   }
@@ -167,7 +180,7 @@ static const int predifiendMaxEvents = 100;
   NSError *error;
   NSData *jsonData = [NSJSONSerialization  dataWithJSONObject:params options:NSJSONWritingPrettyPrinted error:&error];
   
-  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:self.url]
+  NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:self.endpoint]
                                                          cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
   
   [request setHTTPMethod:@"POST"];
@@ -222,11 +235,27 @@ static const int predifiendMaxEvents = 100;
   [self addKey:@"user_id" value:self.userId to:keyValuePairs];
   [self addKey:@"event_category" value:(eventCategory ?: @"custom") to:keyValuePairs];
  
+  [self addKey:@"client" value:(userParams[@"client"] ?: self.clientId) to:keyValuePairs];
+  [self addKey:@"client_version" value:(userParams[@"client_version"] ?: self.clientVersion) to:keyValuePairs];
+  [self addKey:@"platform" value:(userParams[@"platform"] ?: self.platform) to:keyValuePairs];
+
+  if ([eventName isEqualToString:@"session_start"] ||
+      [eventName isEqualToString:@"session_update"] ||
+      [eventCategory isEqualToString:@"account"])
+  {
+    [self addKey:@"email" value:(userParams[@"email"] ?: self.email) to:keyValuePairs];
+    [self addKey:@"locale" value:(userParams[@"locale"] ?: self.local) to:keyValuePairs];
+    
+    [self addKey:@"add_referer" value:(userParams[@"add_referer"] ?: self.referer) to:keyValuePairs];
+    [self addKey:@"add_campaign" value:(userParams[@"add_campaign"] ?: self.campaign) to:keyValuePairs];
+    [self addKey:@"add_placement" value:(userParams[@"add_placement"] ?: self.placement) to:keyValuePairs];
+    
+    [self addKey:@"longitude" value:(userParams[@"longitude"] ?: @(self.longitude)) to:keyValuePairs];
+    [self addKey:@"latitude" value:(userParams[@"latitude"] ?: @(self.latitude)) to:keyValuePairs];
+  }
+  
   if (userParams)
   {
-    [self addKey:@"client" value:(userParams[@"client"] ?: self.clientId) to:keyValuePairs];
-    [self addKey:@"client_version" value:(userParams[@"client_version"] ?: self.clientVersion) to:keyValuePairs];
-    [self addKey:@"platform" value:(userParams[@"platform"] ?: self.platform) to:keyValuePairs];
     
     [self addKey:@"content_id" value:userParams[@"content_id"] to:keyValuePairs];
     [self addKey:@"content_ids" value:userParams[@"content_ids"] to:keyValuePairs];
@@ -240,21 +269,6 @@ static const int predifiendMaxEvents = 100;
     [self addKey:parameter4 value:userParams[parameter4] to:keyValuePairs];
     [self addKey:parameter5 value:userParams[parameter5] to:keyValuePairs];
     [self addKey:parameter6 value:userParams[parameter6] to:keyValuePairs];
-    
-    if ([eventName isEqualToString:@"session_start"] ||
-        [eventName isEqualToString:@"session_update"] ||
-        [eventCategory isEqualToString:@"account"])
-    {
-      [self addKey:@"email" value:(userParams[@"email"] ?: self.email) to:keyValuePairs];
-      [self addKey:@"locale" value:(userParams[@"locale"] ?: self.local) to:keyValuePairs];
-      
-      [self addKey:@"add_referer" value:(userParams[@"add_referer"] ?: self.referer) to:keyValuePairs];
-      [self addKey:@"add_campaign" value:(userParams[@"add_campaign"] ?: self.campaign) to:keyValuePairs];
-      [self addKey:@"add_placement" value:(userParams[@"add_placement"] ?: self.placement) to:keyValuePairs];
-      
-      [self addKey:@"longitude" value:(userParams[@"longitude"] ?: @(self.longitude)) to:keyValuePairs];
-      [self addKey:@"latitude" value:(userParams[@"latitude"] ?: @(self.latitude)) to:keyValuePairs];
-    }
   }
   
   return[[NSMutableDictionary alloc] initWithDictionary:keyValuePairs];

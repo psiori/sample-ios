@@ -27,7 +27,6 @@
   [super setUp];
   self.sample = [[TrackingInstance alloc] init];
   self.sample.delegate = self;
-  self.sample.url = @"http://events.neurometry.com/sample/v01/event";
 }
 
 - (void)tearDown
@@ -38,6 +37,10 @@
 - (void)testInit
 {
   XCTAssertNotNil(self.sample.eventQueue, @"EventQueue should be initialized");
+  XCTAssertTrue([self.sample.endpoint isEqual:@"http://events.neurometry.com/sample/v01/event"]);
+  XCTAssertTrue([self.sample.platform isEqualToString:@"ios"]);
+  XCTAssertTrue([self.sample.sdk isEqualToString:@"sample-ios"]);
+  XCTAssertTrue([self.sample.sdkVersion isEqualToString:@"0.0.1"]);
 }
 
 - (void)testGrouping
@@ -55,6 +58,12 @@
   XCTAssertTrue(self.sample.isRunning, @"sample should have stoped");
   [self.sample stop];
   XCTAssertFalse(self.sample.isRunning, @"sample should run after resuming");
+}
+
+- (void)testEndpointShouldNotBeNil
+{
+  self.sample.endpoint = nil;
+  XCTAssertNotNil(self.sample.endpoint, @"Endpoint should not be nil");
 }
 
 - (void)testaddEvent

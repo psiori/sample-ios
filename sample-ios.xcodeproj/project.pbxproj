@@ -13,11 +13,11 @@
 		489080AD19B4D42400172123 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 489080AC19B4D42400172123 /* UIKit.framework */; };
 		489080B019B4D42400172123 /* libsample-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4890809819B4D42400172123 /* libsample-ios.a */; };
 		489080B619B4D42400172123 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 489080B419B4D42400172123 /* InfoPlist.strings */; };
-		489080C819B4D43A00172123 /* Tracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 489080C419B4D43A00172123 /* Tracker.m */; };
+		489080C819B4D43A00172123 /* Sample.m in Sources */ = {isa = PBXBuildFile; fileRef = 489080C419B4D43A00172123 /* Sample.m */; };
 		489080C919B4D43A00172123 /* TrackingInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 489080C619B4D43A00172123 /* TrackingInstance.m */; };
 		489080CF19B4D44C00172123 /* TrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 489080CB19B4D44C00172123 /* TrackerTests.m */; };
 		489080D019B4D44C00172123 /* XCTestCase+AsyncTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 489080CD19B4D44C00172123 /* XCTestCase+AsyncTesting.m */; };
-		489080D319B4D47600172123 /* Tracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 489080C319B4D43A00172123 /* Tracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		489080D319B4D47600172123 /* Sample.h in Headers */ = {isa = PBXBuildFile; fileRef = 489080C319B4D43A00172123 /* Sample.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		489080D419B4D47B00172123 /* TrackingInstance.h in Headers */ = {isa = PBXBuildFile; fileRef = 489080C519B4D43A00172123 /* TrackingInstance.h */; };
 /* End PBXBuildFile section */
 
@@ -52,8 +52,8 @@
 		489080AC19B4D42400172123 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
 		489080B319B4D42400172123 /* sample-iosTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "sample-iosTests-Info.plist"; sourceTree = "<group>"; };
 		489080B519B4D42400172123 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		489080C319B4D43A00172123 /* Tracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tracker.h; sourceTree = "<group>"; };
-		489080C419B4D43A00172123 /* Tracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tracker.m; sourceTree = "<group>"; };
+		489080C319B4D43A00172123 /* Sample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sample.h; sourceTree = "<group>"; };
+		489080C419B4D43A00172123 /* Sample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sample.m; sourceTree = "<group>"; };
 		489080C519B4D43A00172123 /* TrackingInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackingInstance.h; sourceTree = "<group>"; };
 		489080C619B4D43A00172123 /* TrackingInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackingInstance.m; sourceTree = "<group>"; };
 		489080CB19B4D44C00172123 /* TrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackerTests.m; sourceTree = "<group>"; };
@@ -118,8 +118,8 @@
 		4890809D19B4D42400172123 /* sample-ios */ = {
 			isa = PBXGroup;
 			children = (
-				489080C319B4D43A00172123 /* Tracker.h */,
-				489080C419B4D43A00172123 /* Tracker.m */,
+				489080C319B4D43A00172123 /* Sample.h */,
+				489080C419B4D43A00172123 /* Sample.m */,
 				489080C519B4D43A00172123 /* TrackingInstance.h */,
 				489080C619B4D43A00172123 /* TrackingInstance.m */,
 				4890809E19B4D42400172123 /* Supporting Files */,
@@ -162,7 +162,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				489080D319B4D47600172123 /* Tracker.h in Headers */,
+				489080D319B4D47600172123 /* Sample.h in Headers */,
 				489080D419B4D47B00172123 /* TrackingInstance.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -269,7 +269,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				489080C919B4D43A00172123 /* TrackingInstance.m in Sources */,
-				489080C819B4D43A00172123 /* Tracker.m in Sources */,
+				489080C819B4D43A00172123 /* Sample.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -152,7 +152,7 @@
   [Sample sharedInstance].local = local;
 }
 
-+ (void)setModule:(NSString *)module
++ (void)setModule:(id)module
 {
   [Sample sharedInstance].module = module;
 }

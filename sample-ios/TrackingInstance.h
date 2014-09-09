@@ -45,7 +45,7 @@ extern NSString * const kInstallToken;
 @property (nonatomic, copy) NSString *clientVersion;
 
 @property (nonatomic, copy) NSString *appToken;
-@property (nonatomic, copy) NSString *module;
+@property (nonatomic, strong) id module;
 @property (nonatomic, copy) NSString *platform;
 @property (nonatomic, strong) id userId;
 @property (nonatomic, strong) id facebookId;

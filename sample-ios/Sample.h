@@ -142,7 +142,7 @@ extern NSString * const parameter6;
 
 + (void)setClientId:(id)clientId version:(NSString *)version;
 
-+ (void)setModule:(NSString *)module;
++ (void)setModule:(id)module;
 
 + (void)setUserId:(id)userId;
 

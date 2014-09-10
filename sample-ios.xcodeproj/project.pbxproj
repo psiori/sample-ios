@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4847D69719BF66A900CAE24D /* Connector.h in Headers */ = {isa = PBXBuildFile; fileRef = 4847D69519BF66A900CAE24D /* Connector.h */; };
+		4847D69819BF66A900CAE24D /* Connector.m in Sources */ = {isa = PBXBuildFile; fileRef = 4847D69619BF66A900CAE24D /* Connector.m */; };
 		4890809C19B4D42400172123 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4890809B19B4D42400172123 /* Foundation.framework */; };
 		489080AA19B4D42400172123 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 489080A919B4D42400172123 /* XCTest.framework */; };
 		489080AB19B4D42400172123 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4890809B19B4D42400172123 /* Foundation.framework */; };
@@ -14,11 +16,11 @@
 		489080B019B4D42400172123 /* libsample-ios.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4890809819B4D42400172123 /* libsample-ios.a */; };
 		489080B619B4D42400172123 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 489080B419B4D42400172123 /* InfoPlist.strings */; };
 		489080C819B4D43A00172123 /* Sample.m in Sources */ = {isa = PBXBuildFile; fileRef = 489080C419B4D43A00172123 /* Sample.m */; };
-		489080C919B4D43A00172123 /* TrackingInstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 489080C619B4D43A00172123 /* TrackingInstance.m */; };
-		489080CF19B4D44C00172123 /* TrackerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 489080CB19B4D44C00172123 /* TrackerTests.m */; };
+		489080CF19B4D44C00172123 /* SampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 489080CB19B4D44C00172123 /* SampleTests.m */; };
 		489080D019B4D44C00172123 /* XCTestCase+AsyncTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = 489080CD19B4D44C00172123 /* XCTestCase+AsyncTesting.m */; };
 		489080D319B4D47600172123 /* Sample.h in Headers */ = {isa = PBXBuildFile; fileRef = 489080C319B4D43A00172123 /* Sample.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		489080D419B4D47B00172123 /* TrackingInstance.h in Headers */ = {isa = PBXBuildFile; fileRef = 489080C519B4D43A00172123 /* TrackingInstance.h */; };
+		4890934D19C0239D0051FDF9 /* SampleExtension.h in Headers */ = {isa = PBXBuildFile; fileRef = 4890934B19C0239D0051FDF9 /* SampleExtension.h */; };
+		4890935719C0373B0051FDF9 /* ConnectorTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4890935619C0373B0051FDF9 /* ConnectorTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +46,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4847D69519BF66A900CAE24D /* Connector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Connector.h; sourceTree = "<group>"; };
+		4847D69619BF66A900CAE24D /* Connector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Connector.m; sourceTree = "<group>"; };
 		4890809819B4D42400172123 /* libsample-ios.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libsample-ios.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4890809B19B4D42400172123 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4890809F19B4D42400172123 /* sample-ios-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "sample-ios-Prefix.pch"; sourceTree = "<group>"; };
@@ -54,12 +58,12 @@
 		489080B519B4D42400172123 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		489080C319B4D43A00172123 /* Sample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sample.h; sourceTree = "<group>"; };
 		489080C419B4D43A00172123 /* Sample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sample.m; sourceTree = "<group>"; };
-		489080C519B4D43A00172123 /* TrackingInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackingInstance.h; sourceTree = "<group>"; };
-		489080C619B4D43A00172123 /* TrackingInstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackingInstance.m; sourceTree = "<group>"; };
-		489080CB19B4D44C00172123 /* TrackerTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TrackerTests.m; sourceTree = "<group>"; };
+		489080CB19B4D44C00172123 /* SampleTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleTests.m; sourceTree = "<group>"; };
 		489080CC19B4D44C00172123 /* XCTestCase+AsyncTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestCase+AsyncTesting.h"; sourceTree = "<group>"; };
 		489080CD19B4D44C00172123 /* XCTestCase+AsyncTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase+AsyncTesting.m"; sourceTree = "<group>"; };
 		489080D619B4D7DC00172123 /* libsample-ios.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libsample-ios.a"; sourceTree = "<group>"; };
+		4890934B19C0239D0051FDF9 /* SampleExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleExtension.h; sourceTree = "<group>"; };
+		4890935619C0373B0051FDF9 /* ConnectorTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectorTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,8 +124,9 @@
 			children = (
 				489080C319B4D43A00172123 /* Sample.h */,
 				489080C419B4D43A00172123 /* Sample.m */,
-				489080C519B4D43A00172123 /* TrackingInstance.h */,
-				489080C619B4D43A00172123 /* TrackingInstance.m */,
+				4890934B19C0239D0051FDF9 /* SampleExtension.h */,
+				4847D69519BF66A900CAE24D /* Connector.h */,
+				4847D69619BF66A900CAE24D /* Connector.m */,
 				4890809E19B4D42400172123 /* Supporting Files */,
 			);
 			path = "sample-ios";
@@ -138,7 +143,8 @@
 		489080B119B4D42400172123 /* sample-iosTests */ = {
 			isa = PBXGroup;
 			children = (
-				489080CB19B4D44C00172123 /* TrackerTests.m */,
+				489080CB19B4D44C00172123 /* SampleTests.m */,
+				4890935619C0373B0051FDF9 /* ConnectorTests.m */,
 				489080CC19B4D44C00172123 /* XCTestCase+AsyncTesting.h */,
 				489080CD19B4D44C00172123 /* XCTestCase+AsyncTesting.m */,
 				489080B219B4D42400172123 /* Supporting Files */,
@@ -163,7 +169,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				489080D319B4D47600172123 /* Sample.h in Headers */,
-				489080D419B4D47B00172123 /* TrackingInstance.h in Headers */,
+				4847D69719BF66A900CAE24D /* Connector.h in Headers */,
+				4890934D19C0239D0051FDF9 /* SampleExtension.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,7 +275,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				489080C919B4D43A00172123 /* TrackingInstance.m in Sources */,
+				4847D69819BF66A900CAE24D /* Connector.m in Sources */,
 				489080C819B4D43A00172123 /* Sample.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -277,7 +284,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				489080CF19B4D44C00172123 /* TrackerTests.m in Sources */,
+				489080CF19B4D44C00172123 /* SampleTests.m in Sources */,
+				4890935719C0373B0051FDF9 /* ConnectorTests.m in Sources */,
 				489080D019B4D44C00172123 /* XCTestCase+AsyncTesting.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

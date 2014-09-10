@@ -8,11 +8,13 @@
 
 #import <XCTest/XCTest.h>
 #import "XCTestCase+AsyncTesting.h"
-#import "TrackingInstance.h"
+#import "SampleExtension.h"
+#import "Sample.h"
+#import "Connector.h"
 
-@interface SampleTests : XCTestCase<TrackingDelegate>
+@interface SampleTests : XCTestCase <ConnectionDelegate>
 
-@property (nonatomic, strong) TrackingInstance *sample;
+@property (nonatomic, strong) Sample *sample;
 
 @property (nonatomic, strong) NSHTTPURLResponse *response;
 @property (nonatomic, strong) NSData *data;
@@ -25,39 +27,26 @@
 - (void)setUp
 {
   [super setUp];
-  self.sample = [[TrackingInstance alloc] init];
-  self.sample.delegate = self;
+  self.sample = [Sample sharedInstance];
+  self.sample.connector.delegate = self;
 }
 
 - (void)tearDown
 {
   [super tearDown];
+  [Sample stopTracking];
+  [Sample setSharedInstance:nil];
 }
 
 - (void)testInit
 {
-  XCTAssertNotNil(self.sample.eventQueue, @"EventQueue should be initialized");
   XCTAssertTrue([self.sample.endpoint isEqual:@"http://events.neurometry.com/sample/v01/event"]);
+  XCTAssertTrue([self.sample.connector.endpoint isEqual:@"http://events.neurometry.com/sample/v01/event"]);
   XCTAssertTrue([self.sample.platform isEqualToString:@"ios"]);
   XCTAssertTrue([self.sample.sdk isEqualToString:@"sample-ios"]);
   XCTAssertTrue([self.sample.sdkVersion isEqualToString:@"0.0.1"]);
-}
-
-- (void)testGrouping
-{
-  [self.sample startGroup];
-  XCTAssertTrue(self.sample.isGrouping, @"Group should be set to true");
-  [self.sample endGroup];
-  XCTAssertFalse(self.sample.isGrouping, @"Group should be set to false");
-}
-
-- (void)testStartStop
-{
-  XCTAssertFalse(self.sample.isRunning, @"sample should run");
-  [self.sample resume];
-  XCTAssertTrue(self.sample.isRunning, @"sample should have stoped");
-  [self.sample stop];
-  XCTAssertFalse(self.sample.isRunning, @"sample should run after resuming");
+  XCTAssertTrue(self.sample.connector.isRunning);
+  XCTAssertNotNil(self.sample.connector.sendNextEventTimer);
 }
 
 - (void)testEndpointShouldNotBeNil
@@ -66,79 +55,163 @@
   XCTAssertNotNil(self.sample.endpoint, @"Endpoint should not be nil");
 }
 
-- (void)testaddEvent
+- (void)testStopAndResumeTracking
 {
-  [self.sample stop];
-  
-  [self.sample track:@"testevent" category:@"testcategory"];
-  NSUInteger events = [self.sample.eventQueue count];
-  XCTAssertEqual(events, 1, @"Eventqueue should contain 1 entry but contains %ld", events);
+  [Sample stopTracking];
+  XCTAssertFalse(self.sample.connector.isRunning);
+  [Sample resumeTracking];
+  XCTAssertTrue(self.sample.connector.isRunning);
 }
 
-- (void)testAddGroup
+- (void)testSessionStart
 {
-  [self.sample stop];
+  [Sample stopTracking];
   
-  [self.sample startGroup];
-  [self.sample track:@"ping" category:@"session"];
-  [self.sample track:@"ping" category:@"session"];
-  
-  NSUInteger groupEvents = [self.sample.eventGroup count];
-  XCTAssertEqual(groupEvents, 2, @"Groupqueue should contain 2 entry but contains %ld", groupEvents);
-  
-  [self.sample endGroup];
-  
-  groupEvents = [self.sample.eventGroup count];
-  XCTAssertEqual(groupEvents, 0, @"Groupqueue should contain 0 entry but contains %ld", groupEvents);
-  
-  NSUInteger events = [self.sample.eventQueue count];
-  XCTAssertEqual(events, 1, @"Groupqueue should contain 1 entry but contains %ld", events);
+  [Sample sessionStart:@"testtoken"];
+  NSDictionary *event = [self.sample.connector.eventQueue firstObject];
+  XCTAssertNotNil(event);
+  XCTAssertTrue([event[@"event_name"] isEqualToString:@"session_start"]);
+  XCTAssertTrue([event[@"event_category"] isEqualToString:@"session"]);
 }
 
-- (void)testSendNext
+- (void)testSessionUpdate
 {
-  [self.sample stop];
-  [self.sample track:@"ping" category:@"session"];
-  [self.sample resume];
+  [Sample stopTracking];
   
-  [self waitForTimeout:5];
-  [self.sample stop];
-  
-  NSUInteger events = [self.sample.eventQueue count];
-  XCTAssertEqual(events, 0, @"Eventqueue should contain 0 entries but contains %ld", events);
+  [Sample sessionUpdate];
+  NSDictionary *event = [self.sample.connector.eventQueue firstObject];
+  XCTAssertNotNil(event);
+  XCTAssertTrue([event[@"event_name"] isEqualToString:@"session_update"]);
+  XCTAssertTrue([event[@"event_category"] isEqualToString:@"session"]);
 }
 
-- (void)testSendNextShouldNotSend
+- (void)testPing
 {
-  [self.sample stop];
-  [self.sample track:@"ping" category:@"session"];
+  [Sample stopTracking];
   
-  [self waitForTimeout:5];
-  NSUInteger events = [self.sample.eventQueue count];
-  XCTAssertEqual(events, 1, @"Eventqueue should contain 1 entry but contains %ld", events);
+  [Sample ping];
+  NSDictionary *event = [self.sample.connector.eventQueue firstObject];
+  XCTAssertNotNil(event);
+  XCTAssertTrue([event[@"event_name"] isEqualToString:@"ping"]);
+  XCTAssertTrue([event[@"event_category"] isEqualToString:@"session"]);
+}
+
+- (void)testAutoPing
+{
+  [Sample stopTracking];
   
-  [self.sample sendNext];
-  [self waitForTimeout:5];
-  events = [self.sample.eventQueue count];
-  XCTAssertEqual(events, 1, @"Eventqueue should contain 1 entry but contains %ld", events);
+  [Sample autoPing:60];
+  XCTAssertNotNil(self.sample.autoPingTimer);
+}
+
+- (void)testAutoPingStopPing
+{
+  [Sample stopTracking];
+  
+  [Sample autoPing:60];
+  XCTAssertNotNil(self.sample.autoPingTimer);
+  [Sample autoPing:0];
+  XCTAssertNil(self.sample.autoPingTimer, @"auto ping should stop when the interval is 0");
+}
+
+- (void)testDefaultAutoPing
+{
+  [Sample stopTracking];
+  
+  [Sample autoPing:0];
+  XCTAssertNil(self.sample.autoPingTimer, @"auto ping should stop when the interval is 0");
+  [Sample autoPing];
+  XCTAssertNotNil(self.sample.autoPingTimer);
+}
+
+- (void)testSingleContentUsage
+{
+  [Sample stopTracking];
+  
+  [Sample singleContentUsage:@(99) contentType:nil];
+  NSDictionary *event = [self.sample.connector.eventQueue firstObject];
+  XCTAssertNotNil(event);
+  XCTAssertTrue([event[@"event_name"] isEqualToString:@"usage"]);
+  XCTAssertTrue([event[@"event_category"] isEqualToString:@"content"]);
+  XCTAssertTrue([event[@"content_type"] isEqualToString:@"content"]);
+  XCTAssertTrue([event[@"content_id"] integerValue] == 99);
+}
+
+- (void)testSingleContentUsageCorrectContentType
+{
+  [Sample stopTracking];
+  
+  [Sample singleContentUsage:@(88) contentType:@"page"];
+  NSDictionary *event = [self.sample.connector.eventQueue firstObject];
+  XCTAssertNotNil(event);
+  XCTAssertTrue([event[@"event_name"] isEqualToString:@"usage"]);
+  XCTAssertTrue([event[@"event_category"] isEqualToString:@"content"]);
+  XCTAssertTrue([event[@"content_type"] isEqualToString:@"page"]);
+  XCTAssertTrue([event[@"content_id"] integerValue] == 88);
+}
+
+- (void)testMultipleContentUsage
+{
+  [Sample stopTracking];
+  
+  [Sample multipleContentUsage:@[@(88), @(99)] contentType:@"page"];
+  NSDictionary *event = [self.sample.connector.eventQueue firstObject];
+  XCTAssertNotNil(event);
+  XCTAssertTrue([event[@"event_name"] isEqualToString:@"usage"]);
+  XCTAssertTrue([event[@"event_category"] isEqualToString:@"content"]);
+  XCTAssertTrue([event[@"content_type"] isEqualToString:@"page"]);
+  
+  NSArray *array = event[@"content_ids"];
+  XCTAssertTrue([array count] == 2);
+  XCTAssertTrue([array[0] integerValue] == 88);
+  XCTAssertTrue([array[1] integerValue] == 99);
+}
+
+- (void)testSetEndpoint
+{
+  [Sample setEndpoint:@"myendpoint"];
+  XCTAssertTrue([self.sample.endpoint isEqualToString:@"myendpoint"]);
+}
+
+- (void)testSetAppToken
+{
+  [Sample setAppToken:@"token"];
+  XCTAssertTrue([self.sample.appToken isEqualToString:@"token"]);
+}
+
+- (void)testSetModule
+{
+  [Sample setModule:@"module"];
+  XCTAssertTrue([self.sample.module isEqualToString:@"module"]);
+}
+
+- (void)testSetEmail
+{
+  [Sample setEmail:@"email"];
+  XCTAssertTrue([self.sample.email isEqualToString:@"email"]);
+}
+
+- (void)testSetDebug
+{
+  [Sample setDebug:YES];
+  XCTAssertTrue(self.sample.debug);
+  [Sample setDebug:NO];
+  XCTAssertFalse(self.sample.debug);
 }
 
 - (void)testTrackSuccess
 {
-  [self.sample stop];
   self.sample.appToken = @"test app";
-  [self.sample track:@"ping" category:@"session"];
-  [self.sample resume];
+  [Sample track:@"ping" category:@"session" userParams:nil];
   
   [self waitForTimeout:5];
-
+  
   XCTAssertEqual([self.response statusCode], 201);
 }
 
 - (void)testTrackFail
 {
-  [self.sample track:@"ping" category:@"session"];
-  [self.sample resume];
+  [Sample track:@"ping" category:@"session" userParams:nil];
   
   [self waitForTimeout:5];
   
@@ -158,7 +231,6 @@
 {
   NSString *client = @"testId";
   NSNumber *clientVersion = @6;
-  NSString *platform = @"iOS";
   NSNumber *contentId = @99;
   NSString *contentType = @"session";
   NSString *module = @"testModule";
@@ -176,12 +248,12 @@
   NSNumber *latitude = @100;
   
   
-  NSDictionary *params = @{@"client": client, @"client_version": clientVersion, @"platform": platform,
-                               @"content_id": contentId, @"content_type": contentType, @"module": module,
-                               @"parameter1": parameter1, @"parameter2": parameter2, @"parameter3": parameter3,
-                               @"parameter4": parameter4,  @"parameter5": parameter5, @"parameter6": parameter6,
-                               @"email": email, @"locale": locale, @"add_referer": addReferer,
-                               @"add_placement": addPlacement, @"longitude": longitude, @"latitude": latitude};
+  NSDictionary *params = @{@"client": client, @"client_version": clientVersion,
+                           @"content_id": contentId, @"content_type": contentType, @"module": module,
+                           @"parameter1": parameter1, @"parameter2": parameter2, @"parameter3": parameter3,
+                           @"parameter4": parameter4,  @"parameter5": parameter5, @"parameter6": parameter6,
+                           @"email": email, @"locale": locale, @"add_referer": addReferer,
+                           @"add_placement": addPlacement, @"longitude": longitude, @"latitude": latitude};
   
   NSDictionary *userParams = [self.sample mergeParams:params eventName:@"ping" eventCategory:@"session"];
   
@@ -189,8 +261,8 @@
                 @"Strings are not equal but should be %@ %@", client, userParams[@"client"]);
   XCTAssertTrue([userParams[@"client_version"] isEqualToNumber:clientVersion],
                 @"Numbers are not equal but should be %@ %@", clientVersion, userParams[@"client_version"]);
-  XCTAssertTrue([userParams[@"platform"] isEqualToString:platform],
-                @"Strings are not equal but should be %@ %@", platform, userParams[@"platform"]);
+  XCTAssertTrue([userParams[@"platform"] isEqualToString:@"ios"],
+                @"Strings are not equal but should be %@ %@", @"ios", userParams[@"platform"]);
   XCTAssertTrue([userParams[@"content_id"] isEqualToNumber:contentId],
                 @"Numbers are not equal but should be %@ %@", contentId, userParams[@"content_id"]);
   XCTAssertTrue([userParams[@"module"] isEqualToString:module],
@@ -231,6 +303,36 @@
                 @"Strings are not equal but should be %@ %@", longitude, userParams[@"longitude"]);
 }
 
+- (void)testMergeParamsDontMergeNilValues
+{
+  NSDictionary *userParams = [self.sample mergeParams:nil eventName:nil eventCategory:nil];
+  XCTAssertNil(userParams[@"event_name"]);
+  XCTAssertNil(userParams[@"client"]);
+  XCTAssertNil(userParams[@"content_id"]);
+  XCTAssertNil(userParams[@"module"]);
+  XCTAssertNil(userParams[@"parameter1"]);
+  XCTAssertNil(userParams[@"parameter2"]);
+  XCTAssertNil(userParams[@"parameter3"]);
+  XCTAssertNil(userParams[@"parameter4"]);
+  XCTAssertNil(userParams[@"parameter5"]);
+  XCTAssertNil(userParams[@"parameter6"]);
+  XCTAssertNil(userParams[@"email"]);
+  XCTAssertNil(userParams[@"locale"]);
+  XCTAssertNil(userParams[@"add_referer"]);
+  XCTAssertNil(userParams[@"add_placement"]);
+  XCTAssertNil(userParams[@"latitude"]);
+  XCTAssertNil(userParams[@"longitude"]);
+  XCTAssertNil(userParams[@"add_referer"]);
+  XCTAssertNil(userParams[@"add_campaign"]);
+  XCTAssertNil(userParams[@"add_placement"]);
+  
+  XCTAssertNotNil(userParams[@"sdk"]);
+  XCTAssertNotNil(userParams[@"sdk_event"]);
+  XCTAssertNotNil(userParams[@"install_token"]);
+  XCTAssertNotNil(userParams[@"session_token"]);
+  XCTAssertNotNil(userParams[@"debug"]);
+  XCTAssertTrue([userParams[@"event_category"] isEqualToString:@"custom"]);
+}
 
 - (void)testAddKeyValueTo
 {
@@ -264,6 +366,7 @@
   XCTAssertEqual([[self.sample randomToken:12] characterAtIndex:4], '-', @"The fourth character should be a -");
 }
 
+// Delegation methods to get the POST response - no tests!
 - (void)trackingDidFailWithError:(NSError *)error
 {
   self.error = error;

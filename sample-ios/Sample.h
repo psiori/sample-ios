@@ -8,13 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-extern NSString * const parameter1;
-extern NSString * const parameter2;
-extern NSString * const parameter3;
-extern NSString * const parameter4;
-extern NSString * const parameter5;
-extern NSString * const parameter6;
-
 /**
  Single access point for all tracking calls
  */
@@ -24,10 +17,10 @@ extern NSString * const parameter6;
 #pragma mark - Tracking
 
 /**
- Starts the tracking to an endPoint
+ Resumes the tracking to an endPoint
  @param endPoint the adress where the events will be send to
  */
-+ (void)startTracking;
++ (void)resumeTracking;
 
 /**
  Stops the tracking
@@ -54,6 +47,7 @@ extern NSString * const parameter6;
  */
 + (void)track:(NSString *)event category:(NSString *)category userParams:(NSDictionary *)userParams;
 
++ (void)track:(NSString *)event category:(NSString *)category;
 
 /**
  If a tracking group is started, all events in the group will be sent i a single HTTP event after endGroup is called.
@@ -106,6 +100,11 @@ extern NSString * const parameter6;
 + (void)autoPing:(double)seconds;
 
 /**
+ Send ping events every 60 seconds
+ */
++ (void)autoPing;
+
+/**
  Adds a registration event.
  @param userId the user who did register
  @param params additional paramater
@@ -120,7 +119,7 @@ extern NSString * const parameter6;
 + (void)signIn:(NSString *)userId params:(NSDictionary *)params;
 
 /**
- Adds a content event
+ Adds a content event.If the content type is nil, "event" will be set as content type
  @param contentId the id of the content that was used
  @param contentType the type of the content that was used
  */
@@ -136,11 +135,11 @@ extern NSString * const parameter6;
 
 #pragma mark -
 
-+ (void)setEnpoint:(NSString *)endpoint;
++ (void)setEndpoint:(NSString *)endpoint;
 
 + (void)setAppToken:(NSString *)appToken;
 
-+ (void)setClientId:(id)clientId version:(NSString *)version;
++ (void)setClient:(id)client version:(NSString *)version;
 
 + (void)setModule:(id)module;
 
@@ -150,7 +149,7 @@ extern NSString * const parameter6;
 
 + (void)setEmail:(NSString *)email;
 
-+ (void)setLocal:(NSString *)local;
++ (void)setLocale:(NSString *)locale;
 
 + (void)setLatitude:(double)latitude longitude:(double)longitude;
 

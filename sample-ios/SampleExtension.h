@@ -1,47 +1,24 @@
 //
-//  Sample.h
-//  analytics-sample-ios
+//  SampleExtension.h
+//  sample-ios
 //
-//  Created by Daniel Band on 25/08/14.
+//  Created by Daniel Band on 10/09/14.
 //  Copyright (c) 2014 5dlab GmbH. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import "Sample.h"
 
-/**
- Protocol that allows callbacks from the Connector
- */
-@protocol TrackingDelegate <NSObject>
-
-/**
- Delegate method called when a track action succeeds
- @param data The success data
- */
-- (void)trackingDidSucceedWithData:(NSData *)data response:(NSURLResponse *)response;
-
-/**
- Delegate method called when a track action failed
- @param error An error object
- */
-- (void)trackingDidFailWithError:(NSError *)error;
-
-@end
-
-
-extern NSString * const kInstallToken;
+extern NSString *const kInstallToken;
 
 @class Connector;
 
-@interface TrackingInstance : NSObject
-
-@property (nonatomic, assign, getter = isRunning)  BOOL running;
-@property (nonatomic, assign, getter = isGrouping) BOOL grouping;
-@property (nonatomic, assign, getter = isSending)  BOOL sending;
+@interface Sample ()
 
 @property (nonatomic, copy) NSString *sdk;
 @property (nonatomic, copy) NSString *sdkVersion;
 
-@property (nonatomic, strong) id clientId;
+@property (nonatomic, strong) id client;
 @property (nonatomic, copy) NSString *clientVersion;
 
 @property (nonatomic, copy) NSString *appToken;
@@ -50,7 +27,7 @@ extern NSString * const kInstallToken;
 @property (nonatomic, strong) id userId;
 @property (nonatomic, strong) id facebookId;
 @property (nonatomic, copy) NSString *email;
-@property (nonatomic, copy) NSString *local;
+@property (nonatomic, copy) NSString *locale;
 
 @property (nonatomic, assign) double longitude;
 @property (nonatomic, assign) double latitude;
@@ -66,17 +43,12 @@ extern NSString * const kInstallToken;
 /**
  At the very first start of the tracker a random install token is created and saved to the user defaults
  */
-@property (nonatomic, copy, readonly) NSString *installToken;
+@property (nonatomic, copy) NSString *installToken;
 
 /**
  A session token is genereted every time the tracker gets initialized.
  */
-@property (nonatomic, copy, readonly) NSString *sessionToken;
-
-/**
- If needed set a delegate to receive callbacks when a event was send successfully or an error occured
- */
-@property (nonatomic, strong) id< TrackingDelegate> delegate;
+@property (nonatomic, copy) NSString *sessionToken;
 
 /**
  The endpoints url
@@ -84,15 +56,24 @@ extern NSString * const kInstallToken;
 @property (nonatomic, strong) NSString *endpoint;
 
 /**
- Events are send as fifo
+ The Connector
  */
-@property (nonatomic, strong) NSMutableArray *eventQueue;
+@property (nonatomic, strong) Connector *connector;
 
 /**
- If grouping is activated events are added to the group until the group is closed. Then the array is added to the event queue.
+ Get a shared Sample instance
  */
-@property (nonatomic, strong) NSMutableArray *eventGroup;
++ (Sample *)sharedInstance;
 
+/**
+ Reset the singleton in order to tear it down  at the end of a unit test
+ */
++ (void)setSharedInstance:(Sample *)instance;
+
+/**
+ Init a new Sample with a given connector
+ */
+- (instancetype)initWithConnector:(Connector *)connector;
 
 /**
  Builds a random token with a specific length. Every fourth character a '-' is added.
@@ -127,10 +108,10 @@ extern NSString * const kInstallToken;
  @param clientId
  @param version
  */
-- (void)setClientId:(id)clientId version:(NSString *)version;
+- (void)setClient:(id)client version:(NSString *)version;
 
 
-#pragma mark - Starting and grouping
+#pragma mark - Tracking
 
 /**
  Stop the tracking
@@ -141,19 +122,6 @@ extern NSString * const kInstallToken;
  Resumes the tracking
  */
 - (void)resume;
-
-/**
- Start a tracking group. If a tracking group is started, all events in the group will be sent i a single HTTP event after endGroup is called.
- */
-- (void)startGroup;
-
-/**
- Ends a tracking group.
- */
-- (void)endGroup;
-
-
-#pragma mark - Tracking
 
 /**
  Forwards the event to the connector where it is send. This method is called when a event is added event.
@@ -170,10 +138,6 @@ extern NSString * const kInstallToken;
  */
 - (void)track:(NSString *)event category:(NSString *)category userParams:(NSDictionary *)userParams;
 
-/**
- Sends the next event in the event queue
- */
-- (void)sendNext;
 
 /**
  Helper methods. They are exposed so that they can be tested.
@@ -182,5 +146,6 @@ extern NSString * const kInstallToken;
 
 - (NSDictionary *)mergeParams:(NSDictionary *)userParams eventName:(NSString *)eventName eventCategory:(NSString *)eventCategory;
 - (void)addKey:(NSString *)key value:(id)value to:(NSMutableDictionary *)dict;
+
 
 @end

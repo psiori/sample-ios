@@ -185,6 +185,32 @@ static dispatch_once_t onceToken;
   [[Sample sharedInstance] track:@"usage" category:@"content" userParams:params];
 }
 
+#pragma mark - Purchase events
+
++ (void)purchase:(id)productId params:(NSDictionary *)params
+{
+  if (!productId)
+  {
+    return;
+  }
+  
+  NSMutableDictionary *mutableParams = [params mutableCopy];
+  [mutableParams addEntriesFromDictionary:@{@"product_sku": productId}];
+  [[Sample sharedInstance] track:@"purchase" category:@"revenue" userParams:mutableParams];
+}
+
++ (void)chargeback:(id)productId params:(NSDictionary *)params
+{
+  if (!productId)
+  {
+    return;
+  }
+  
+  NSMutableDictionary *mutableParams = [params mutableCopy];
+  [mutableParams addEntriesFromDictionary:@{@"product_sku": productId}];
+  [[Sample sharedInstance] track:@"chargeback" category:@"revenue" userParams:mutableParams];
+}
+
 #pragma mark - 
 
 + (void)setEndpoint:(NSString *)endpoint
@@ -317,6 +343,7 @@ static dispatch_once_t onceToken;
   [self addKey:@"client" value:(userParams[@"client"] ?: self.client) to:keyValuePairs];
   [self addKey:@"client_version" value:(userParams[@"client_version"] ?: self.clientVersion) to:keyValuePairs];
   [self addKey:@"platform" value:(userParams[@"platform"] ?: self.platform) to:keyValuePairs];
+  [self addKey:@"module" value:(userParams[@"module"] ?: self.module) to:keyValuePairs];
   
   if ([eventName isEqualToString:@"session_start"] ||
       [eventName isEqualToString:@"session_update"] ||
@@ -339,7 +366,14 @@ static dispatch_once_t onceToken;
     [self addKey:@"content_ids" value:userParams[@"content_ids"] to:keyValuePairs];
     [self addKey:@"content_type" value:userParams[@"content_type"] to:keyValuePairs];
     
-    [self addKey:@"module" value:(userParams[@"module"] ?: self.module) to:keyValuePairs];
+    [self addKey:@"provider" value:userParams[@"provider"] to:keyValuePairs];
+    [self addKey:@"gross" value:userParams[@"gross"] to:keyValuePairs];
+    [self addKey:@"currency" value:userParams[@"currency"] to:keyValuePairs];
+    [self addKey:@"country" value:userParams[@"country"] to:keyValuePairs];
+    [self addKey:@"earnings" value:userParams[@"earnings"] to:keyValuePairs];
+    [self addKey:@"product_sku" value:userParams[@"product_sku"] to:keyValuePairs];
+    [self addKey:@"product_category" value:userParams[@"product_category"] to:keyValuePairs];
+    [self addKey:@"receipt_identifier" value:userParams[@"receipt_identifier"] to:keyValuePairs];
     
     [self addKey:@"parameter1" value:userParams[@"parameter1"] to:keyValuePairs];
     [self addKey:@"parameter2" value:userParams[@"parameter2"] to:keyValuePairs];

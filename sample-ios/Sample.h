@@ -67,8 +67,7 @@
 
 /**
  Pre-defined tracking events. Some events take an optional user parameters.
- You can add six custom key/value pairs as parameters. The keys for these pairs are declared as constants on top of this file.
- parameter1 to parameter6
+ You can add six custom key/value pairs as parameters; parameter1 to parameter6
  */
 #pragma mark - Pre-defined Events
 
@@ -132,6 +131,23 @@
  */
 + (void)multipleContentUsage:(NSArray *)contentIds contentType:(NSString *)contentType;
 
+/**
+ Adds a purchase action for a product id.
+ Add the provider, gross, currency, country, earnings and the product_category as parameters.
+ The receipt_identifier is optional.
+ @param productId
+ @param params
+ */
++ (void)purchase:(id)productId params:(NSDictionary *)params;
+
+/**
+ Adds a chargeback action for a product id.
+ Add the provider, gross, currency, country, earnings and the product_category as parameters.
+ The receipt_identifier is optional.
+ @param productId
+ @param params
+ */
++ (void)chargeback:(id)productId params:(NSDictionary *)params;
 
 #pragma mark -
 

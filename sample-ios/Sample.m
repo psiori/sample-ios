@@ -336,7 +336,7 @@ static dispatch_once_t onceToken;
   [self addKey:@"install_token" value:self.installToken to:keyValuePairs];
   [self addKey:@"session_token" value:self.sessionToken to:keyValuePairs];
   [self addKey:@"debug" value:[NSNumber numberWithBool:self.debug] to:keyValuePairs];
-  [self addKey:@"timestamp" value:[NSNumber numberWithDouble:round([[NSDate date] timeIntervalSince1970] / 1000)] to:keyValuePairs];
+  [self addKey:@"timestamp" value:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]] to:keyValuePairs];
   [self addKey:@"user_id" value:self.userId to:keyValuePairs];
   [self addKey:@"event_category" value:(eventCategory ?: @"custom") to:keyValuePairs];
   

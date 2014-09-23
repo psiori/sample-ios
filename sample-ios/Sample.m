@@ -1,6 +1,6 @@
 //
-//  Tracker.m
-//  analytics+ios
+//  Sample.m
+//  sample-ios
 //
 //  Created by Daniel Band on 01/09/14.
 //  Copyright (c) 2014 5dlab GmbH. All rights reserved.
@@ -69,12 +69,12 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Tracking
 
-+ (void)resumeTracking
++ (void)resume
 {
   [[Sample sharedInstance] resume];
 }
 
-+ (void)stopTracking
++ (void)stop
 {
   [[Sample sharedInstance] stop];
 }
@@ -159,28 +159,17 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Content Events
 
-+ (void)singleContentUsage:(id)contentId contentType:(NSString *)contentType
++ (void)contentUsage:(id)contentId contentType:(NSString *)contentType
 {
   if (!contentId)
   {
     return;
   }
   
-  contentType = contentType ?: @"content";
-  NSDictionary *params = @{@"content_type": contentType, @"content_id": contentId};
-  
-  [[Sample sharedInstance] track:@"usage" category:@"content" userParams:params];
-}
-
-+ (void)multipleContentUsage:(NSArray *)contentIds contentType:(NSString *)contentType
-{
-  if (!contentIds)
-  {
-    return;
-  }
+  NSString *key = [contentId isKindOfClass:[NSArray class]] ? @"content_ids" : @"content_id";
   
   contentType = contentType ?: @"content";
-  NSDictionary *params = @{@"content_type": contentType,  @"content_ids": contentIds};
+  NSDictionary *params = @{@"content_type": contentType, key: contentId};
   
   [[Sample sharedInstance] track:@"usage" category:@"content" userParams:params];
 }
@@ -366,14 +355,18 @@ static dispatch_once_t onceToken;
     [self addKey:@"content_ids" value:userParams[@"content_ids"] to:keyValuePairs];
     [self addKey:@"content_type" value:userParams[@"content_type"] to:keyValuePairs];
     
-    [self addKey:@"provider" value:userParams[@"provider"] to:keyValuePairs];
-    [self addKey:@"gross" value:userParams[@"gross"] to:keyValuePairs];
-    [self addKey:@"currency" value:userParams[@"currency"] to:keyValuePairs];
-    [self addKey:@"country" value:userParams[@"country"] to:keyValuePairs];
-    [self addKey:@"earnings" value:userParams[@"earnings"] to:keyValuePairs];
-    [self addKey:@"product_sku" value:userParams[@"product_sku"] to:keyValuePairs];
-    [self addKey:@"product_category" value:userParams[@"product_category"] to:keyValuePairs];
-    [self addKey:@"receipt_identifier" value:userParams[@"receipt_identifier"] to:keyValuePairs];
+    if ([eventName isEqualToString:@"purchase"] ||
+        [eventName isEqualToString:@"chargeback"])
+    {
+      [self addKey:@"provider" value:userParams[@"provider"] to:keyValuePairs];
+      [self addKey:@"gross" value:userParams[@"gross"] to:keyValuePairs];
+      [self addKey:@"currency" value:userParams[@"currency"] to:keyValuePairs];
+      [self addKey:@"country" value:userParams[@"country"] to:keyValuePairs];
+      [self addKey:@"earnings" value:userParams[@"earnings"] to:keyValuePairs];
+      [self addKey:@"product_sku" value:userParams[@"product_sku"] to:keyValuePairs];
+      [self addKey:@"product_category" value:userParams[@"product_category"] to:keyValuePairs];
+      [self addKey:@"receipt_identifier" value:userParams[@"receipt_identifier"] to:keyValuePairs];
+    }
     
     [self addKey:@"parameter1" value:userParams[@"parameter1"] to:keyValuePairs];
     [self addKey:@"parameter2" value:userParams[@"parameter2"] to:keyValuePairs];

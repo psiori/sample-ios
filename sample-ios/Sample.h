@@ -1,6 +1,6 @@
 //
-//  Tracker.h
-//  analytics-ios
+//  Sample.h
+//  sample-ios
 //
 //  Created by Daniel Band on 01/09/14.
 //  Copyright (c) 2014 5dlab GmbH. All rights reserved.
@@ -20,12 +20,12 @@
  Resumes the tracking to an endPoint
  @param endPoint the adress where the events will be send to
  */
-+ (void)resumeTracking;
++ (void)resume;
 
 /**
  Stops the tracking
  */
-+ (void)stopTracking;
++ (void)stop;
 
 /**
  generic tracking event that could be used to send pre-defined tracking
@@ -118,18 +118,11 @@
 + (void)signIn:(NSString *)userId params:(NSDictionary *)params;
 
 /**
- Adds a content event.If the content type is nil, "event" will be set as content type
- @param contentId the id of the content that was used
+ Adds a content event. If the content type is nil, "event" will be set as content type
+ @param contentIds the id of the content that was used. can be a single NSNumber or an NSArray
  @param contentType the type of the content that was used
  */
-+ (void)singleContentUsage:(id)contentId contentType:(NSString *)contentType;
-
-/**
- Adds a content event with multiple contentIds of the same content type
- @param contentIds an array of content ids
- @param contentType the content type of all ids in the array
- */
-+ (void)multipleContentUsage:(NSArray *)contentIds contentType:(NSString *)contentType;
++ (void)contentUsage:(id)contentIds contentType:(NSString *)contentType;
 
 /**
  Adds a purchase action for a product id.

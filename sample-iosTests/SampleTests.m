@@ -34,7 +34,7 @@
 - (void)tearDown
 {
   [super tearDown];
-  [Sample stopTracking];
+  [Sample stop];
   [Sample setSharedInstance:nil];
 }
 
@@ -57,15 +57,15 @@
 
 - (void)testStopAndResumeTracking
 {
-  [Sample stopTracking];
+  [Sample stop];
   XCTAssertFalse(self.sample.connector.isRunning);
-  [Sample resumeTracking];
+  [Sample resume];
   XCTAssertTrue(self.sample.connector.isRunning);
 }
 
 - (void)testSessionStart
 {
-  [Sample stopTracking];
+  [Sample stop];
   
   [Sample sessionStart:@"testtoken"];
   NSDictionary *event = [self.sample.connector.eventQueue firstObject];
@@ -76,7 +76,7 @@
 
 - (void)testSessionUpdate
 {
-  [Sample stopTracking];
+  [Sample stop];
   
   [Sample sessionUpdate];
   NSDictionary *event = [self.sample.connector.eventQueue firstObject];
@@ -87,7 +87,7 @@
 
 - (void)testPing
 {
-  [Sample stopTracking];
+  [Sample stop];
   
   [Sample ping];
   NSDictionary *event = [self.sample.connector.eventQueue firstObject];
@@ -98,7 +98,7 @@
 
 - (void)testAutoPing
 {
-  [Sample stopTracking];
+  [Sample stop];
   
   [Sample autoPing:60];
   XCTAssertNotNil(self.sample.autoPingTimer);
@@ -106,7 +106,7 @@
 
 - (void)testAutoPingStopPing
 {
-  [Sample stopTracking];
+  [Sample stop];
   
   [Sample autoPing:60];
   XCTAssertNotNil(self.sample.autoPingTimer);
@@ -116,7 +116,7 @@
 
 - (void)testDefaultAutoPing
 {
-  [Sample stopTracking];
+  [Sample stop];
   
   [Sample autoPing:0];
   XCTAssertNil(self.sample.autoPingTimer, @"auto ping should stop when the interval is 0");
@@ -126,9 +126,9 @@
 
 - (void)testSingleContentUsage
 {
-  [Sample stopTracking];
+  [Sample stop];
   
-  [Sample singleContentUsage:@(99) contentType:nil];
+  [Sample contentUsage:@(99) contentType:nil];
   NSDictionary *event = [self.sample.connector.eventQueue firstObject];
   XCTAssertNotNil(event);
   XCTAssertTrue([event[@"event_name"] isEqualToString:@"usage"]);
@@ -139,9 +139,9 @@
 
 - (void)testSingleContentUsageCorrectContentType
 {
-  [Sample stopTracking];
+  [Sample stop];
   
-  [Sample singleContentUsage:@(88) contentType:@"page"];
+  [Sample contentUsage:@(88) contentType:@"page"];
   NSDictionary *event = [self.sample.connector.eventQueue firstObject];
   XCTAssertNotNil(event);
   XCTAssertTrue([event[@"event_name"] isEqualToString:@"usage"]);
@@ -152,9 +152,9 @@
 
 - (void)testMultipleContentUsage
 {
-  [Sample stopTracking];
+  [Sample stop];
   
-  [Sample multipleContentUsage:@[@(88), @(99)] contentType:@"page"];
+  [Sample contentUsage:@[@(88), @(99)] contentType:@"page"];
   NSDictionary *event = [self.sample.connector.eventQueue firstObject];
   XCTAssertNotNil(event);
   XCTAssertTrue([event[@"event_name"] isEqualToString:@"usage"]);
@@ -169,7 +169,7 @@
 
 - (void)testPurchase
 {
-  [Sample stopTracking];
+  [Sample stop];
   
   [Sample purchase:@(99) params:@{@"provider": @"provider", @"gross": @(1), @"currency": @"usd", @"country": @"ger", @"earnings": @(2), @"product_category": @"category"}];
   NSDictionary *event = [self.sample.connector.eventQueue firstObject];
@@ -184,7 +184,7 @@
 
 - (void)testChargeback
 {
-  [Sample stopTracking];
+  [Sample stop];
   
   [Sample chargeback:@(99) params:@{@"provider": @"provider", @"gross": @(1), @"currency": @"usd", @"country": @"ger", @"earnings": @(2), @"product_category": @"category"}];
   NSDictionary *event = [self.sample.connector.eventQueue firstObject];

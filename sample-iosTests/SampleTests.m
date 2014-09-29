@@ -85,6 +85,17 @@
   XCTAssertTrue([event[@"event_category"] isEqualToString:@"session"]);
 }
 
+- (void)testSessionResume
+{
+  [Sample stop];
+  
+  [Sample sessionResume];
+  NSDictionary *event = [self.sample.connector.eventQueue firstObject];
+  XCTAssertNotNil(event);
+  XCTAssertTrue([event[@"event_name"] isEqualToString:@"session_resume"]);
+  XCTAssertTrue([event[@"event_category"] isEqualToString:@"session"]);
+}
+
 - (void)testPing
 {
   [Sample stop];

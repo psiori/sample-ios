@@ -88,6 +88,11 @@
 + (void)sessionPause;
 
 /**
+ Adds a session resume event
+ */
++ (void)sessionResume;
+
+/**
  Adds a ping event
  */
 + (void)ping;

@@ -119,6 +119,11 @@ static dispatch_once_t onceToken;
   [[Sample sharedInstance] track:@"session_pause" category:@"session"];
 }
 
++ (void)sessionResume
+{
+  [[Sample sharedInstance] track:@"session_resume" category:@"session"];
+}
+
 + (void)ping
 {
   [[Sample sharedInstance] track:@"ping" category:@"session"];

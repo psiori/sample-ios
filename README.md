@@ -22,7 +22,7 @@ or
 registration
 ```
 
-Also, you can track custom events by calling the track methods. If you take this approach, you should not that only known parameters will be passed to the server.
+Also, you can track custom events by calling the track methods. If you take this approach, you should note that only known parameters will be passed to the server.
 
 ```
 [Sample track:"ios_test_event" category:"test_category" userParams:@{ parameter1: "param" }];

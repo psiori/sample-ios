@@ -103,15 +103,16 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Session events
 
-+ (void)sessionStart:(NSString *)appToken
++ (void)sessionStart:(NSString *)appToken userId:(NSString *)userId userParams:(NSDictionary *)params
 {
   [Sample sharedInstance].appToken = appToken;
-  [[Sample sharedInstance] track:@"session_start" category:@"session"];
+  [Sample sharedInstance].userId = userId;
+  [[Sample sharedInstance] track:@"session_start" category:@"session" userParams:params];
 }
 
-+ (void)sessionUpdate
++ (void)sessionUpdate:(NSDictionary *)params
 {
-  [[Sample sharedInstance] track:@"session_update" category:@"session"];
+  [[Sample sharedInstance] track:@"session_update" category:@"session" userParams:params];
 }
 
 + (void)sessionPause
@@ -346,9 +347,9 @@ static dispatch_once_t onceToken;
     [self addKey:@"email" value:(userParams[@"email"] ?: self.email) to:keyValuePairs];
     [self addKey:@"locale" value:(userParams[@"locale"] ?: self.locale) to:keyValuePairs];
     
-    [self addKey:@"add_referer" value:(userParams[@"add_referer"] ?: self.referer) to:keyValuePairs];
-    [self addKey:@"add_campaign" value:(userParams[@"add_campaign"] ?: self.campaign) to:keyValuePairs];
-    [self addKey:@"add_placement" value:(userParams[@"add_placement"] ?: self.placement) to:keyValuePairs];
+    [self addKey:@"ad_referer" value:(userParams[@"ad_referer"] ?: self.referer) to:keyValuePairs];
+    [self addKey:@"ad_campaign" value:(userParams[@"ad_campaign"] ?: self.campaign) to:keyValuePairs];
+    [self addKey:@"ad_placement" value:(userParams[@"ad_placement"] ?: self.placement) to:keyValuePairs];
     
     [self addKey:@"longitude" value:(userParams[@"longitude"] ?: @(self.longitude)) to:keyValuePairs];
     [self addKey:@"latitude" value:(userParams[@"latitude"] ?: @(self.latitude)) to:keyValuePairs];

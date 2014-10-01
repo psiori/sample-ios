@@ -67,22 +67,33 @@
 {
   [Sample stop];
   
-  [Sample sessionStart:@"testtoken"];
+  [Sample sessionStart:@"testtoken" userId:@"my_user_id" userParams:@{@"ad_referer": @"my_referer",
+                                                                      @"ad_campaign": @"my_campaign",
+                                                                      @"ad_placement": @"my_placement"}];
   NSDictionary *event = [self.sample.connector.eventQueue firstObject];
   XCTAssertNotNil(event);
   XCTAssertTrue([event[@"event_name"] isEqualToString:@"session_start"]);
   XCTAssertTrue([event[@"event_category"] isEqualToString:@"session"]);
+  XCTAssertTrue([event[@"user_id"] isEqualToString:@"my_user_id"]);
+  XCTAssertTrue([event[@"ad_referer"] isEqualToString:@"my_referer"]);
+  XCTAssertTrue([event[@"ad_campaign"] isEqualToString:@"my_campaign"]);
+  XCTAssertTrue([event[@"ad_placement"] isEqualToString:@"my_placement"]);
 }
 
 - (void)testSessionUpdate
 {
   [Sample stop];
   
-  [Sample sessionUpdate];
+  [Sample sessionUpdate:@{@"ad_referer": @"my_referer",
+                          @"ad_campaign": @"my_campaign",
+                          @"ad_placement": @"my_placement"}];
   NSDictionary *event = [self.sample.connector.eventQueue firstObject];
   XCTAssertNotNil(event);
   XCTAssertTrue([event[@"event_name"] isEqualToString:@"session_update"]);
   XCTAssertTrue([event[@"event_category"] isEqualToString:@"session"]);
+  XCTAssertTrue([event[@"ad_referer"] isEqualToString:@"my_referer"]);
+  XCTAssertTrue([event[@"ad_campaign"] isEqualToString:@"my_campaign"]);
+  XCTAssertTrue([event[@"ad_placement"] isEqualToString:@"my_placement"]);
 }
 
 - (void)testSessionResume
@@ -283,8 +294,9 @@
   NSString *parameter6 = @"parameter6";
   NSString *email = @"email";
   NSString *locale = @"de";
-  NSString *addReferer = @"test_referer";
-  NSString *addPlacement = @"test_add";
+  NSString *adReferer = @"test_referer";
+  NSString *adCampaign = @"test_referer";
+  NSString *adPlacement = @"test_add";
   NSNumber *longitude = @100;
   NSNumber *latitude = @100;
   
@@ -293,8 +305,8 @@
                            @"content_id": contentId, @"content_type": contentType, @"module": module,
                            @"parameter1": parameter1, @"parameter2": parameter2, @"parameter3": parameter3,
                            @"parameter4": parameter4,  @"parameter5": parameter5, @"parameter6": parameter6,
-                           @"email": email, @"locale": locale, @"add_referer": addReferer,
-                           @"add_placement": addPlacement, @"longitude": longitude, @"latitude": latitude};
+                           @"email": email, @"locale": locale, @"ad_referer": adReferer,
+                           @"ad_placement": adPlacement, @"ad_campaign": adCampaign, @"longitude": longitude, @"latitude": latitude};
   
   NSDictionary *userParams = [self.sample mergeParams:params eventName:@"ping" eventCategory:@"session"];
   
@@ -322,8 +334,9 @@
                 @"Strings are not equal but should be %@ %@", parameter6, userParams[@"parameter6"]);
   XCTAssertNil(userParams[@"email"], @"email should not be set");
   XCTAssertNil(userParams[@"locale"], @"locale should not be set");
-  XCTAssertNil(userParams[@"add_referer"], @"add_referer should not be set");
-  XCTAssertNil(userParams[@"add_placement"], @"add_placement should not be set");
+  XCTAssertNil(userParams[@"ad_referer"], @"ad_referer should not be set");
+  XCTAssertNil(userParams[@"ad_campaign"], @"ad_campaign should not be set");
+  XCTAssertNil(userParams[@"ad_placement"], @"ad_placement should not be set");
   XCTAssertNil(userParams[@"latitude"], @"latitude should not be set");
   XCTAssertNil(userParams[@"longitude"], @"longitude should not be set");
   
@@ -334,10 +347,12 @@
                 @"Strings are not equal but should be %@ %@", email, userParams[@"email"]);
   XCTAssertTrue([userParams[@"locale"] isEqualToString:locale],
                 @"Strings are not equal but should be %@ %@", locale, userParams[@"locale"]);
-  XCTAssertTrue([userParams[@"add_referer"] isEqualToString:addReferer],
-                @"Strings are not equal but should be %@ %@", addReferer, userParams[@"add_referer"]);
-  XCTAssertTrue([userParams[@"add_placement"] isEqualToString:addPlacement],
-                @"Strings are not equal but should be %@ %@", addPlacement, userParams[@"add_placement"]);
+  XCTAssertTrue([userParams[@"ad_referer"] isEqualToString:adReferer],
+                @"Strings are not equal but should be %@ %@", adReferer, userParams[@"ad_referer"]);
+  XCTAssertTrue([userParams[@"ad_placement"] isEqualToString:adPlacement],
+                @"Strings are not equal but should be %@ %@", adPlacement, userParams[@"ad_placement"]);
+  XCTAssertTrue([userParams[@"ad_campaign"] isEqualToString:adCampaign],
+                @"Strings are not equal but should be %@ %@", adCampaign, userParams[@"ad_campaign"]);
   XCTAssertTrue([userParams[@"latitude"] isEqualToNumber:latitude],
                 @"Strings are not equal but should be %@ %@", latitude, userParams[@"latitude"]);
   XCTAssertTrue([userParams[@"longitude"] isEqualToNumber:longitude],

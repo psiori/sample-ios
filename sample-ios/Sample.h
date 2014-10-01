@@ -75,12 +75,12 @@
  Adds a session start event and changes the appToken if the appToken is not nil.
  @param appToken a new appToken
  */
-+ (void)sessionStart:(NSString *)appToken;
++ (void)sessionStart:(NSString *)appToken userId:(NSString *)userId userParams:(NSDictionary *)params;
 
 /**
  Adds a session update event
  */
-+ (void)sessionUpdate;
++ (void)sessionUpdate:(NSDictionary *)params;
 
 /**
  Adds a session pause event

@@ -29,6 +29,7 @@
   [super setUp];
   self.sample = [Sample sharedInstance];
   self.sample.connector.delegate = self;
+  self.sample.debug = YES;
 }
 
 - (void)tearDown
@@ -193,30 +194,30 @@
 {
   [Sample stop];
   
-  [Sample purchase:@(99) params:@{@"provider": @"provider", @"gross": @(1), @"currency": @"usd", @"country": @"ger", @"earnings": @(2), @"product_category": @"category"}];
+  [Sample purchase:@(99) params:@{@"pur_provider": @"provider", @"pur_gross": @(1), @"pur_currency": @"usd", @"pur_country": @"ger", @"pur_earnings": @(2), @"pur_product_category": @"category"}];
   NSDictionary *event = [self.sample.connector.eventQueue firstObject];
   XCTAssertNotNil(event);
-  XCTAssertTrue([event[@"provider"] isEqualToString:@"provider"]);
-  XCTAssertTrue([event[@"gross"] integerValue] == 1);
-  XCTAssertTrue([event[@"currency"] isEqualToString:@"usd"]);
-  XCTAssertTrue([event[@"country"] isEqualToString:@"ger"]);
-  XCTAssertTrue([event[@"earnings"] integerValue] == 2);
-  XCTAssertTrue([event[@"product_category"] isEqualToString:@"category"]);
+  XCTAssertTrue([event[@"pur_provider"] isEqualToString:@"provider"]);
+  XCTAssertTrue([event[@"pur_gross"] integerValue] == 1);
+  XCTAssertTrue([event[@"pur_currency"] isEqualToString:@"usd"]);
+  XCTAssertTrue([event[@"pur_country"] isEqualToString:@"ger"]);
+  XCTAssertTrue([event[@"pur_earnings"] integerValue] == 2);
+  XCTAssertTrue([event[@"pur_product_category"] isEqualToString:@"category"]);
 }
 
 - (void)testChargeback
 {
   [Sample stop];
   
-  [Sample chargeback:@(99) params:@{@"provider": @"provider", @"gross": @(1), @"currency": @"usd", @"country": @"ger", @"earnings": @(2), @"product_category": @"category"}];
+  [Sample chargeback:@(99) params:@{@"pur_provider": @"provider", @"pur_gross": @(1), @"pur_currency": @"usd", @"pur_country": @"ger", @"pur_earnings": @(2), @"pur_product_category": @"category"}];
   NSDictionary *event = [self.sample.connector.eventQueue firstObject];
   XCTAssertNotNil(event);
-  XCTAssertTrue([event[@"provider"] isEqualToString:@"provider"]);
-  XCTAssertTrue([event[@"gross"] integerValue] == 1);
-  XCTAssertTrue([event[@"currency"] isEqualToString:@"usd"]);
-  XCTAssertTrue([event[@"country"] isEqualToString:@"ger"]);
-  XCTAssertTrue([event[@"earnings"] integerValue] == 2);
-  XCTAssertTrue([event[@"product_category"] isEqualToString:@"category"]);
+  XCTAssertTrue([event[@"pur_provider"] isEqualToString:@"provider"]);
+  XCTAssertTrue([event[@"pur_gross"] integerValue] == 1);
+  XCTAssertTrue([event[@"pur_currency"] isEqualToString:@"usd"]);
+  XCTAssertTrue([event[@"pur_country"] isEqualToString:@"ger"]);
+  XCTAssertTrue([event[@"pur_earnings"] integerValue] == 2);
+  XCTAssertTrue([event[@"pur_product_category"] isEqualToString:@"category"]);
 }
 
 - (void)testSetEndpoint

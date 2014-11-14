@@ -190,7 +190,7 @@ static dispatch_once_t onceToken;
   }
   
   NSMutableDictionary *mutableParams = [params mutableCopy];
-  [mutableParams addEntriesFromDictionary:@{@"product_sku": productId}];
+  [mutableParams addEntriesFromDictionary:@{@"pur_product_sku": productId}];
   [[Sample sharedInstance] track:@"purchase" category:@"revenue" userParams:mutableParams];
 }
 
@@ -202,7 +202,7 @@ static dispatch_once_t onceToken;
   }
   
   NSMutableDictionary *mutableParams = [params mutableCopy];
-  [mutableParams addEntriesFromDictionary:@{@"product_sku": productId}];
+  [mutableParams addEntriesFromDictionary:@{@"pur_product_sku": productId}];
   [[Sample sharedInstance] track:@"chargeback" category:@"revenue" userParams:mutableParams];
 }
 
@@ -340,10 +340,15 @@ static dispatch_once_t onceToken;
   [self addKey:@"platform" value:(userParams[@"platform"] ?: self.platform) to:keyValuePairs];
   [self addKey:@"module" value:(userParams[@"module"] ?: self.module) to:keyValuePairs];
   
-  if ([eventName isEqualToString:@"session_start"] ||
-      [eventName isEqualToString:@"session_update"] ||
-      [eventCategory isEqualToString:@"account"])
+  BOOL sessionEvent = [eventName isEqualToString:@"session_start"] || [eventName isEqualToString:@"session_update"];
+  if (sessionEvent || [eventCategory isEqualToString:@"account"])
   {
+    if (sessionEvent)
+    {
+      [self addKey:@"country_code" value:(userParams[@"country_code"] ?: self.countryCode) to:keyValuePairs];
+      [self addKey:@"facebook_id" value:(userParams[@"facebook_id"] ?: self.facebookId) to:keyValuePairs];
+    }
+    
     [self addKey:@"email" value:(userParams[@"email"] ?: self.email) to:keyValuePairs];
     [self addKey:@"locale" value:(userParams[@"locale"] ?: self.locale) to:keyValuePairs];
     
@@ -364,14 +369,14 @@ static dispatch_once_t onceToken;
     if ([eventName isEqualToString:@"purchase"] ||
         [eventName isEqualToString:@"chargeback"])
     {
-      [self addKey:@"provider" value:userParams[@"provider"] to:keyValuePairs];
-      [self addKey:@"gross" value:userParams[@"gross"] to:keyValuePairs];
-      [self addKey:@"currency" value:userParams[@"currency"] to:keyValuePairs];
-      [self addKey:@"country" value:userParams[@"country"] to:keyValuePairs];
-      [self addKey:@"earnings" value:userParams[@"earnings"] to:keyValuePairs];
-      [self addKey:@"product_sku" value:userParams[@"product_sku"] to:keyValuePairs];
-      [self addKey:@"product_category" value:userParams[@"product_category"] to:keyValuePairs];
-      [self addKey:@"receipt_identifier" value:userParams[@"receipt_identifier"] to:keyValuePairs];
+      [self addKey:@"pur_provider" value:userParams[@"pur_provider"] to:keyValuePairs];
+      [self addKey:@"pur_gross" value:userParams[@"pur_gross"] to:keyValuePairs];
+      [self addKey:@"pur_currency" value:userParams[@"pur_currency"] to:keyValuePairs];
+      [self addKey:@"pur_country" value:userParams[@"pur_country"] to:keyValuePairs];
+      [self addKey:@"pur_earnings" value:userParams[@"pur_earnings"] to:keyValuePairs];
+      [self addKey:@"pur_product_sku" value:userParams[@"pur_product_sku"] to:keyValuePairs];
+      [self addKey:@"pur_product_category" value:userParams[@"pur_product_category"] to:keyValuePairs];
+      [self addKey:@"pur_receipt_identifier" value:userParams[@"pur_receipt_identifier"] to:keyValuePairs];
     }
     
     [self addKey:@"parameter1" value:userParams[@"parameter1"] to:keyValuePairs];

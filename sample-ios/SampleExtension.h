@@ -28,6 +28,7 @@ extern NSString *const kInstallToken;
 @property (nonatomic, strong) id facebookId;
 @property (nonatomic, copy) NSString *email;
 @property (nonatomic, copy) NSString *locale;
+@property (nonatomic, copy) NSString *countryCode;
 
 @property (nonatomic, assign) double longitude;
 @property (nonatomic, assign) double latitude;

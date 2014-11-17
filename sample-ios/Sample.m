@@ -223,7 +223,7 @@ static dispatch_once_t onceToken;
   [Sample sharedInstance].facebookId = facebookId;
 }
 
-+ (void)setLatitude:(double)latitude longitude:(double)longitude
++ (void)setLatitude:(NSString *)latitude longitude:(NSString *)longitude
 {
   [[Sample sharedInstance] setLatitude:latitude longitude:longitude];
 }
@@ -265,7 +265,7 @@ static dispatch_once_t onceToken;
 
 # pragma mark - SampleExtension
 
-- (void)setLatitude:(double)latitude longitude:(double)longitude
+- (void)setLatitude:(NSString *)latitude longitude:(NSString *)longitude
 {
   _latitude = latitude;
   _longitude = longitude;
@@ -356,8 +356,8 @@ static dispatch_once_t onceToken;
     [self addKey:@"ad_campaign" value:(userParams[@"ad_campaign"] ?: self.campaign) to:keyValuePairs];
     [self addKey:@"ad_placement" value:(userParams[@"ad_placement"] ?: self.placement) to:keyValuePairs];
     
-    [self addKey:@"longitude" value:(userParams[@"longitude"] ?: @(self.longitude)) to:keyValuePairs];
-    [self addKey:@"latitude" value:(userParams[@"latitude"] ?: @(self.latitude)) to:keyValuePairs];
+    [self addKey:@"longitude" value:(userParams[@"longitude"] ?: self.longitude) to:keyValuePairs];
+    [self addKey:@"latitude" value:(userParams[@"latitude"] ?: self.latitude) to:keyValuePairs];
   }
   
   if (userParams)

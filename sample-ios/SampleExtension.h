@@ -30,8 +30,8 @@ extern NSString *const kInstallToken;
 @property (nonatomic, copy) NSString *locale;
 @property (nonatomic, copy) NSString *countryCode;
 
-@property (nonatomic, assign) double longitude;
-@property (nonatomic, assign) double latitude;
+@property (nonatomic, assign) NSString *longitude;
+@property (nonatomic, assign) NSString *latitude;
 
 @property (nonatomic, copy) NSString *referer;
 @property (nonatomic, copy) NSString *campaign;
@@ -87,7 +87,7 @@ extern NSString *const kInstallToken;
  @param latitude user's latitude
  @param longitude user's longitude
  */
-- (void)setLatitude:(double)latitude longitude:(double)longitude;
+- (void)setLatitude:(NSString *)latitude longitude:(NSString *)longitude;
 
 /**
  Sets the referer, the campaign and the placement

@@ -165,7 +165,7 @@
 
 + (void)setLocale:(NSString *)locale;
 
-+ (void)setLatitude:(double)latitude longitude:(double)longitude;
++ (void)setLatitude:(NSString *)latitude longitude:(NSString *)longitude;
 
 + (void)setReferer:(NSString *)referer campaign:(NSString *)campaign placement:(NSString *)placement;
 

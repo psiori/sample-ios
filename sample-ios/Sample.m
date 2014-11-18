@@ -56,7 +56,7 @@ static dispatch_once_t onceToken;
     _endpoint = @"http://events.neurometry.com/sample/v01/event";
     _platform = @"ios";
     _sdk = @"sample-ios";
-    _sdkVersion = @"0.0.1";
+    _sdkVersion = @"0.0.2";
     
     connector.endpoint = _endpoint;
     _connector = connector;

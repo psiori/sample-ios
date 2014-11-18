@@ -343,11 +343,8 @@ static dispatch_once_t onceToken;
   BOOL sessionEvent = [eventName isEqualToString:@"session_start"] || [eventName isEqualToString:@"session_update"];
   if (sessionEvent || [eventCategory isEqualToString:@"account"])
   {
-    if (sessionEvent)
-    {
-      [self addKey:@"country_code" value:(userParams[@"country_code"] ?: self.countryCode) to:keyValuePairs];
-      [self addKey:@"facebook_id" value:(userParams[@"facebook_id"] ?: self.facebookId) to:keyValuePairs];
-    }
+    [self addKey:@"country_code" value:(userParams[@"country_code"] ?: self.countryCode) to:keyValuePairs];
+    [self addKey:@"facebook_id" value:(userParams[@"facebook_id"] ?: self.facebookId) to:keyValuePairs];
     
     [self addKey:@"email" value:(userParams[@"email"] ?: self.email) to:keyValuePairs];
     [self addKey:@"locale" value:(userParams[@"locale"] ?: self.locale) to:keyValuePairs];

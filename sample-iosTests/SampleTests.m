@@ -45,7 +45,7 @@
   XCTAssertTrue([self.sample.connector.endpoint isEqual:@"http://events.neurometry.com/sample/v01/event"]);
   XCTAssertTrue([self.sample.platform isEqualToString:@"ios"]);
   XCTAssertTrue([self.sample.sdk isEqualToString:@"sample-ios"]);
-  XCTAssertTrue([self.sample.sdkVersion isEqualToString:@"0.0.1"]);
+  XCTAssertTrue([self.sample.sdkVersion isEqualToString:@"0.0.3"]);
   XCTAssertTrue(self.sample.connector.isRunning);
   XCTAssertNotNil(self.sample.connector.sendNextEventTimer);
 }
@@ -384,7 +384,7 @@
   XCTAssertNil(userParams[@"add_placement"]);
   
   XCTAssertNotNil(userParams[@"sdk"]);
-  XCTAssertNotNil(userParams[@"sdk_event"]);
+  XCTAssertNotNil(userParams[@"sdk_version"]);
   XCTAssertNotNil(userParams[@"install_token"]);
   XCTAssertNotNil(userParams[@"session_token"]);
   XCTAssertNotNil(userParams[@"debug"]);

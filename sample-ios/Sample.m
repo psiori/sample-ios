@@ -56,7 +56,7 @@ static dispatch_once_t onceToken;
     _endpoint = @"http://events.neurometry.com/sample/v01/event";
     _platform = @"ios";
     _sdk = @"sample-ios";
-    _sdkVersion = @"0.0.2";
+    _sdkVersion = @"0.0.3";
     
     connector.endpoint = _endpoint;
     _connector = connector;
@@ -325,7 +325,7 @@ static dispatch_once_t onceToken;
 {
   NSMutableDictionary *keyValuePairs = [[NSMutableDictionary alloc] init];
   [self addKey:@"sdk" value:self.sdk to:keyValuePairs];
-  [self addKey:@"sdk_event" value:self.sdkVersion to:keyValuePairs];
+  [self addKey:@"sdk_version" value:self.sdkVersion to:keyValuePairs];
   [self addKey:@"event_name" value:eventName to:keyValuePairs];
   [self addKey:@"app_token" value:self.appToken to:keyValuePairs];
   [self addKey:@"install_token" value:self.installToken to:keyValuePairs];

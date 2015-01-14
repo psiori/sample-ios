@@ -423,6 +423,14 @@
   XCTAssertEqual([[self.sample randomToken:12] characterAtIndex:4], '-', @"The fourth character should be a -");
 }
 
+- (void)testRenewSessionToken
+{
+  NSString *oldSessionToken = _sample.sessionToken;
+  [Sample renewSessionToken];
+  NSString *newSessionToken = _sample.sessionToken;
+  XCTAssertFalse([oldSessionToken isEqualToString:newSessionToken]);
+}
+
 // Delegation methods to get the POST response - no tests!
 - (void)trackingDidFailWithError:(NSError *)error
 {

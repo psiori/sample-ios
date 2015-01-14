@@ -147,6 +147,11 @@
  */
 + (void)chargeback:(id)productId params:(NSDictionary *)params;
 
+/**
+ Creates and sets a new session token
+ */
++ (void)renewSessionToken;
+
 #pragma mark -
 
 + (void)setEndpoint:(NSString *)endpoint;

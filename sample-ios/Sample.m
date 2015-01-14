@@ -398,6 +398,12 @@ static dispatch_once_t onceToken;
 
 #pragma mark - Random Token
 
++ (void)renewSessionToken
+{
+  Sample *sharedInstance = [Sample sharedInstance];
+  sharedInstance.sessionToken = [sharedInstance randomToken:32];
+}
+
 - (NSString *)randomToken:(int)length
 {
   NSMutableString *str = [[NSMutableString alloc] initWithString:@""];

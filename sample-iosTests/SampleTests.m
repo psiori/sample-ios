@@ -70,7 +70,8 @@
   
   [Sample sessionStart:@"testtoken" userId:@"my_user_id" userParams:@{@"ad_referer": @"my_referer",
                                                                       @"ad_campaign": @"my_campaign",
-                                                                      @"ad_placement": @"my_placement"}];
+                                                                      @"ad_placement": @"my_placement",
+                                                                      @"target_group": @"my_target_group"}];
   NSDictionary *event = [self.sample.connector.eventQueue firstObject];
   XCTAssertNotNil(event);
   XCTAssertTrue([event[@"event_name"] isEqualToString:@"session_start"]);
@@ -79,6 +80,7 @@
   XCTAssertTrue([event[@"ad_referer"] isEqualToString:@"my_referer"]);
   XCTAssertTrue([event[@"ad_campaign"] isEqualToString:@"my_campaign"]);
   XCTAssertTrue([event[@"ad_placement"] isEqualToString:@"my_placement"]);
+  XCTAssertTrue([event[@"target_group"] isEqualToString:@"my_target_group"]);
 }
 
 - (void)testSessionUpdate
@@ -87,7 +89,8 @@
   
   [Sample sessionUpdate:@{@"ad_referer": @"my_referer",
                           @"ad_campaign": @"my_campaign",
-                          @"ad_placement": @"my_placement"}];
+                          @"ad_placement": @"my_placement",
+                          @"target_group": @"my_target_group"}];
   NSDictionary *event = [self.sample.connector.eventQueue firstObject];
   XCTAssertNotNil(event);
   XCTAssertTrue([event[@"event_name"] isEqualToString:@"session_update"]);
@@ -95,6 +98,7 @@
   XCTAssertTrue([event[@"ad_referer"] isEqualToString:@"my_referer"]);
   XCTAssertTrue([event[@"ad_campaign"] isEqualToString:@"my_campaign"]);
   XCTAssertTrue([event[@"ad_placement"] isEqualToString:@"my_placement"]);
+  XCTAssertTrue([event[@"target_group"] isEqualToString:@"my_target_group"]);
 }
 
 - (void)testSessionResume
@@ -106,6 +110,42 @@
   XCTAssertNotNil(event);
   XCTAssertTrue([event[@"event_name"] isEqualToString:@"session_resume"]);
   XCTAssertTrue([event[@"event_category"] isEqualToString:@"session"]);
+}
+
+- (void)testRegistration
+{
+  [Sample stop];
+  
+  [Sample registration:@"aUserId" params:@{@"target_group": @"my_target_group"}];
+  NSDictionary *event = [self.sample.connector.eventQueue firstObject];
+  XCTAssertNotNil(event);
+  XCTAssertTrue([event[@"event_name"] isEqualToString:@"registration"]);
+  XCTAssertTrue([event[@"event_category"] isEqualToString:@"account"]);
+  XCTAssertTrue([event[@"target_group"] isEqualToString:@"my_target_group"]);
+}
+
+- (void)testSignIn
+{
+  [Sample stop];
+  
+  [Sample signIn:@"aUserId" params:@{@"target_group": @"my_target_group"}];
+  NSDictionary *event = [self.sample.connector.eventQueue firstObject];
+  XCTAssertNotNil(event);
+  XCTAssertTrue([event[@"event_name"] isEqualToString:@"sign_in"]);
+  XCTAssertTrue([event[@"event_category"] isEqualToString:@"account"]);
+  XCTAssertTrue([event[@"target_group"] isEqualToString:@"my_target_group"]);
+}
+
+- (void)testProfileUpdate
+{
+  [Sample stop];
+  
+  [Sample profileUpdate:@{@"target_group": @"my_target_group"}];
+  NSDictionary *event = [self.sample.connector.eventQueue firstObject];
+  XCTAssertNotNil(event);
+  XCTAssertTrue([event[@"event_name"] isEqualToString:@"update"]);
+  XCTAssertTrue([event[@"event_category"] isEqualToString:@"account"]);
+  XCTAssertTrue([event[@"target_group"] isEqualToString:@"my_target_group"]);
 }
 
 - (void)testPing

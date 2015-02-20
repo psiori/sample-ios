@@ -162,6 +162,11 @@ static dispatch_once_t onceToken;
   [[Sample sharedInstance] track:@"sign_in" category:@"account" userParams:params];
 }
 
++ (void)profileUpdate:(NSDictionary *)params
+{
+  [[Sample sharedInstance] track:@"update" category:@"account" userParams:params];
+}
+
 
 #pragma mark - Content Events
 
@@ -340,7 +345,9 @@ static dispatch_once_t onceToken;
   [self addKey:@"platform" value:(userParams[@"platform"] ?: self.platform) to:keyValuePairs];
   [self addKey:@"module" value:(userParams[@"module"] ?: self.module) to:keyValuePairs];
   
-  BOOL sessionEvent = [eventName isEqualToString:@"session_start"] || [eventName isEqualToString:@"session_update"];
+  BOOL sessionEvent = [eventName isEqualToString:@"session_start"] ||
+                      [eventName isEqualToString:@"session_update"]||
+                      [eventName isEqualToString:@"session_resume"];
   if (sessionEvent || [eventCategory isEqualToString:@"account"])
   {
     [self addKey:@"country_code" value:(userParams[@"country_code"] ?: self.countryCode) to:keyValuePairs];
@@ -355,6 +362,8 @@ static dispatch_once_t onceToken;
     
     [self addKey:@"longitude" value:(userParams[@"longitude"] ?: self.longitude) to:keyValuePairs];
     [self addKey:@"latitude" value:(userParams[@"latitude"] ?: self.latitude) to:keyValuePairs];
+    
+    [self addKey:@"target_group" value:userParams[@"target_group"] to:keyValuePairs];
   }
   
   if (userParams)

@@ -123,6 +123,13 @@
 + (void)signIn:(NSString *)userId params:(NSDictionary *)params;
 
 /**
+ Adds a profile update event
+ Should be called when the users account receives an update
+ @param additional paramater
+ */
++ (void)profileUpdate:(NSDictionary *)params;
+
+/**
  Adds a content event. If the content type is nil, "event" will be set as content type
  @param contentIds the id of the content that was used. can be a single NSNumber or an NSArray
  @param contentType the type of the content that was used
